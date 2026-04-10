@@ -146,6 +146,10 @@ export function isRateLimitedPackageApiError(
   return error instanceof PackageApiError && error.status === 429;
 }
 
+export function isPackageApiError(error: unknown): error is PackageApiError {
+  return error instanceof PackageApiError;
+}
+
 function normalizeApiPath(path: string) {
   return path.startsWith("/") ? path : `/${path}`;
 }
