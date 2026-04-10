@@ -252,6 +252,10 @@
   
   /* Glassmorphic card shadow */
   --shadow-glass: 0 4px 24px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+  /* Diff viewer — light tints for patterns/scrollbars on dark surfaces */
+  --diff-diagonal: rgba(255, 255, 255, 0.07);
+  --diff-scrollbar-rgb: 161, 161, 166;
 }
 
 * {

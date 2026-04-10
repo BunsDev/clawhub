@@ -124,7 +124,7 @@ function SkillsHome() {
                 to="/skills"
                 search={{
                   q: undefined,
-                  sort: "downloads" as const,
+                  sort: "stars" as const,
                   dir: "desc" as const,
                   highlighted: undefined,
                   nonSuspicious: true,
@@ -178,7 +178,7 @@ function SkillsHome() {
                 to="/skills"
                 search={{
                   q: undefined,
-                  sort: "downloads" as const,
+                  sort: "stars" as const,
                   dir: "desc" as const,
                   highlighted: undefined,
                   nonSuspicious: true,
