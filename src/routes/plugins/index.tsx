@@ -23,6 +23,7 @@ type PluginsLoaderData = {
   nextCursor: string | null;
   rateLimited: boolean;
   retryAfterSeconds: number | null;
+  error: boolean;
 };
 
 function formatRetryDelay(retryAfterSeconds: number | null) {
@@ -69,6 +70,7 @@ export const Route = createFileRoute("/plugins/")({
         nextCursor: data.nextCursor ?? null,
         rateLimited: false,
         retryAfterSeconds: null,
+        error: false,
       } satisfies PluginsLoaderData;
     } catch (error) {
       if (isRateLimitedPackageApiError(error)) {
@@ -77,9 +79,17 @@ export const Route = createFileRoute("/plugins/")({
           nextCursor: null,
           rateLimited: true,
           retryAfterSeconds: (error as { retryAfterSeconds?: number }).retryAfterSeconds ?? null,
+          error: false,
         } satisfies PluginsLoaderData;
       }
-      throw error;
+      // Handle all other errors gracefully instead of throwing
+      return {
+        items: [],
+        nextCursor: null,
+        rateLimited: false,
+        retryAfterSeconds: null,
+        error: true,
+      } satisfies PluginsLoaderData;
     }
   },
   component: PluginsIndex,
@@ -88,7 +98,7 @@ export const Route = createFileRoute("/plugins/")({
 export function PluginsIndex() {
   const search = Route.useSearch();
   const navigate = Route.useNavigate();
-  const { items, nextCursor, rateLimited, retryAfterSeconds } =
+  const { items, nextCursor, rateLimited, retryAfterSeconds, error } =
     Route.useLoaderData() as PluginsLoaderData;
   const [query, setQuery] = useState(search.q ?? "");
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -201,7 +211,22 @@ export function PluginsIndex() {
             </span>
           </div>
 
-          {rateLimited ? (
+          {error ? (
+            <div className="empty-state">
+              <AlertTriangle size={20} aria-hidden="true" />
+              <p className="empty-state-title">Unable to load plugins</p>
+              <p className="empty-state-body">
+                Something went wrong. Please try again later.
+              </p>
+              <Button
+                variant="primary"
+                onClick={() => window.location.reload()}
+                style={{ marginTop: "var(--space-3)" }}
+              >
+                Retry
+              </Button>
+            </div>
+          ) : rateLimited ? (
             <div className="empty-state">
               <AlertTriangle size={20} aria-hidden="true" />
               <p className="empty-state-title">Plugin catalog is temporarily unavailable</p>

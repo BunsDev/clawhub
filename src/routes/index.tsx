@@ -42,36 +42,45 @@ function DiscoveryHome() {
   const [recent, setRecent] = useState<SkillPageEntry[]>([]);
   const [staffPicks, setStaffPicks] = useState<SkillPageEntry[]>([]);
   const [skillCount, setSkillCount] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
+    setIsLoading(true);
+    setLoadError(null);
 
     Promise.all([
-      convexHttp.query(api.skills.listHighlightedPublic, { limit: 8 }),
+      convexHttp.query(api.skills.listHighlightedPublic, { limit: 8 }).catch(() => []),
       convexHttp.query(api.skills.listPublicPageV4, {
         numItems: 8,
         sort: "downloads",
         dir: "desc",
         nonSuspiciousOnly: true,
-      }),
+      }).catch(() => ({ page: [] })),
       convexHttp.query(api.skills.listPublicPageV4, {
         numItems: 8,
         sort: "updated",
         dir: "desc",
         nonSuspiciousOnly: true,
-      }),
-      convexHttp.query(api.skills.countPublicSkills, {}),
+      }).catch(() => ({ page: [] })),
+      convexHttp.query(api.skills.countPublicSkills, {}).catch(() => null),
     ])
       .then(([h, t, r, c]) => {
         if (cancelled) return;
-        const highlighted = h as SkillPageEntry[];
+        const highlighted = (h ?? []) as SkillPageEntry[];
         setFeatured(highlighted.slice(0, 4));
         setStaffPicks(highlighted.slice(4, 8));
-        setTrending((t as { page: SkillPageEntry[] }).page);
-        setRecent((r as { page: SkillPageEntry[] }).page);
-        setSkillCount(c as number);
+        setTrending(((t as { page: SkillPageEntry[] })?.page ?? []));
+        setRecent(((r as { page: SkillPageEntry[] })?.page ?? []));
+        setSkillCount(c as number | null);
+        setIsLoading(false);
       })
-      .catch(() => {});
+      .catch((err) => {
+        if (cancelled) return;
+        setLoadError("Failed to load content. Please try again.");
+        setIsLoading(false);
+      });
 
     return () => {
       cancelled = true;
@@ -80,6 +89,48 @@ function DiscoveryHome() {
 
   // Pick the best item for spotlight
   const spotlightItem = featured[0] ?? trending[0];
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <main>
+        <DiscoveryHero skillCount={null} featuredSkills={[]} />
+        <section className="discovery-section">
+          <div className="discovery-grid">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i} className="discovery-card" style={{ opacity: 0.5, pointerEvents: "none" }}>
+                <div className="discovery-card-header">
+                  <div className="discovery-card-icon" style={{ background: "var(--surface-muted)" }} />
+                  <div className="discovery-card-info">
+                    <div style={{ width: "60%", height: 16, background: "var(--surface-muted)", borderRadius: 4 }} />
+                    <div style={{ width: "40%", height: 12, background: "var(--surface-muted)", borderRadius: 4, marginTop: 4 }} />
+                  </div>
+                </div>
+                <div style={{ width: "100%", height: 32, background: "var(--surface-muted)", borderRadius: 4 }} />
+              </div>
+            ))}
+          </div>
+        </section>
+      </main>
+    );
+  }
+
+  // Show error state
+  if (loadError) {
+    return (
+      <main>
+        <DiscoveryHero skillCount={null} featuredSkills={[]} />
+        <section className="discovery-section">
+          <Card className="text-center" style={{ padding: "var(--space-6)" }}>
+            <p style={{ color: "var(--ink-soft)", marginBottom: "var(--space-4)" }}>{loadError}</p>
+            <Button variant="primary" onClick={() => window.location.reload()}>
+              Retry
+            </Button>
+          </Card>
+        </section>
+      </main>
+    );
+  }
 
   return (
     <main>

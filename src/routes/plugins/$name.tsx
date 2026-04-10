@@ -32,6 +32,7 @@ type PluginDetailLoaderData = {
   version: PackageVersionDetail | null;
   readme: string | null;
   rateLimited: PluginDetailRateLimitState;
+  error: boolean;
 };
 
 export const Route = createFileRoute("/plugins/$name")({
@@ -57,9 +58,17 @@ export const Route = createFileRoute("/plugins/$name")({
               scope: "detail",
               retryAfterSeconds: error.retryAfterSeconds,
             },
+            error: false,
           };
         }
-        throw error;
+        // Handle all other errors gracefully
+        return {
+          detail: { package: null, owner: null },
+          version: null,
+          readme: null,
+          rateLimited: null,
+          error: true,
+        };
       }
       if (candidateDetail.package) {
         detail = candidateDetail;
@@ -75,30 +84,35 @@ export const Route = createFileRoute("/plugins/$name")({
         version: null,
         readme: null,
         rateLimited: null,
+        error: false,
       };
     }
 
     let metadataRateLimited: PluginDetailRateLimitState = null;
     const readmePromise = fetchPackageReadme(resolvedName).catch((error: unknown) => {
-      if (!isRateLimitedPackageApiError(error)) throw error;
-      metadataRateLimited ??= {
-        scope: "metadata",
-        retryAfterSeconds: error.retryAfterSeconds,
-      };
+      if (isRateLimitedPackageApiError(error)) {
+        metadataRateLimited ??= {
+          scope: "metadata",
+          retryAfterSeconds: error.retryAfterSeconds,
+        };
+      }
+      // Silently handle all errors for metadata
       return null;
     });
     const versionPromise = detail.package?.latestVersion
       ? fetchPackageVersion(resolvedName, detail.package.latestVersion).catch((error: unknown) => {
-          if (!isRateLimitedPackageApiError(error)) throw error;
-          metadataRateLimited ??= {
-            scope: "metadata",
-            retryAfterSeconds: error.retryAfterSeconds,
-          };
+          if (isRateLimitedPackageApiError(error)) {
+            metadataRateLimited ??= {
+              scope: "metadata",
+              retryAfterSeconds: error.retryAfterSeconds,
+            };
+          }
+          // Silently handle all errors for metadata
           return null;
         })
       : Promise.resolve(null);
     const [version, readme] = await Promise.all([versionPromise, readmePromise]);
-    return { detail, version, readme, rateLimited: metadataRateLimited };
+    return { detail, version, readme, rateLimited: metadataRateLimited, error: false };
   },
   head: ({ params, loaderData }) => ({
     meta: [
@@ -235,7 +249,25 @@ function isEmptyObject(obj: unknown): boolean {
 
 function PluginDetailRoute() {
   const { name } = Route.useParams();
-  const { detail, version, readme, rateLimited } = Route.useLoaderData() as PluginDetailLoaderData;
+  const { detail, version, readme, rateLimited, error } = Route.useLoaderData() as PluginDetailLoaderData;
+
+  if (error) {
+    return (
+      <main className="py-10">
+        <Container size="narrow">
+          <EmptyState
+            icon={AlertTriangle}
+            title="Unable to load plugin"
+            description="Something went wrong. Please try again later."
+            action={{
+              label: "Try again",
+              onClick: () => window.location.reload(),
+            }}
+          />
+        </Container>
+      </main>
+    );
+  }
 
   if (rateLimited?.scope === "detail") {
     return (
