@@ -35,7 +35,32 @@ function formatRetryDelay(retryAfterSeconds: number | null) {
   return `in about ${minutes} minute${minutes === 1 ? "" : "s"}`;
 }
 
+function PluginsErrorComponent() {
+  return (
+    <main className="browse-page">
+      <div className="browse-page-header">
+        <h1 className="browse-title">Plugins</h1>
+      </div>
+      <div className="empty-state">
+        <AlertTriangle size={20} aria-hidden="true" />
+        <p className="empty-state-title">Unable to load plugins</p>
+        <p className="empty-state-body">
+          Something went wrong. Please try again later.
+        </p>
+        <Button
+          variant="primary"
+          onClick={() => window.location.reload()}
+          style={{ marginTop: "var(--space-3)" }}
+        >
+          Retry
+        </Button>
+      </div>
+    </main>
+  );
+}
+
 export const Route = createFileRoute("/plugins/")({
+  errorComponent: PluginsErrorComponent,
   validateSearch: (search): PluginSearchState => ({
     q: typeof search.q === "string" && search.q.trim() ? search.q.trim() : undefined,
     cursor: typeof search.cursor === "string" && search.cursor ? search.cursor : undefined,

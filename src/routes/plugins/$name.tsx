@@ -35,7 +35,26 @@ type PluginDetailLoaderData = {
   error: boolean;
 };
 
+function PluginDetailErrorComponent() {
+  return (
+    <main className="py-10">
+      <Container size="narrow">
+        <EmptyState
+          icon={AlertTriangle}
+          title="Unable to load plugin"
+          description="Something went wrong. Please try again later."
+          action={{
+            label: "Try again",
+            onClick: () => window.location.reload(),
+          }}
+        />
+      </Container>
+    </main>
+  );
+}
+
 export const Route = createFileRoute("/plugins/$name")({
+  errorComponent: PluginDetailErrorComponent,
   loader: async ({ params }): Promise<PluginDetailLoaderData> => {
     const requestedName = params.name;
     const candidateNames = requestedName.includes("/")
