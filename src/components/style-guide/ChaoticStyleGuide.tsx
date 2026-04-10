@@ -7,7 +7,7 @@ import {
   Package, 
   Code2, 
   Rocket, 
-  Flask, 
+  FlaskConical, 
   Star,
   Download,
   Heart,
@@ -64,7 +64,7 @@ export function ChaoticStyleGuide() {
               <div className="flex flex-wrap gap-space-2">
                 <PrincipleBadge icon={<Activity className="w-3.5 h-3.5" />} label="Lively over pristine" />
                 <PrincipleBadge icon={<Eye className="w-3.5 h-3.5" />} label="Dense but navigable" />
-                <PrincipleBadge icon={<Flask className="w-3.5 h-3.5" />} label="Experimental" />
+                <PrincipleBadge icon={<FlaskConical className="w-3.5 h-3.5" />} label="Experimental" />
                 <PrincipleBadge icon={<Users className="w-3.5 h-3.5" />} label="Community-driven" />
                 <PrincipleBadge icon={<Zap className="w-3.5 h-3.5" />} label="Controlled chaos" />
               </div>
@@ -244,7 +244,7 @@ export function ChaoticStyleGuide() {
               <div className="flex flex-wrap gap-space-2">
                 <StatusTag icon={<Flame className="w-3 h-3" />} label="Trending" variant="hot" />
                 <StatusTag icon={<Sparkles className="w-3 h-3" />} label="New" variant="new" />
-                <StatusTag icon={<Flask className="w-3 h-3" />} label="Experimental" variant="experimental" />
+                <StatusTag icon={<FlaskConical className="w-3 h-3" />} label="Experimental" variant="experimental" />
                 <StatusTag icon={<Check className="w-3 h-3" />} label="Verified" variant="verified" />
                 <StatusTag icon={<Star className="w-3 h-3" />} label="Featured" variant="featured" />
                 <StatusTag icon={<AlertTriangle className="w-3 h-3" />} label="Beta" variant="beta" />
@@ -311,7 +311,7 @@ export function ChaoticStyleGuide() {
                 <ToolCard 
                   name="model-zoo"
                   description="Curated collection of pre-trained models with one-line imports"
-                  icon={<Flask className="w-5 h-5" />}
+                  icon={<FlaskConical className="w-5 h-5" />}
                   tags={["ml", "models", "inference"]}
                   stars={3420}
                   downloads="89.3k"
@@ -904,7 +904,7 @@ function ExperimentalCard({ name, description, category, status }: { name: strin
   return (
     <div className="bg-surface border border-[#ec4899]/30 border-dashed rounded-sm p-space-3 hover:border-[#ec4899]/50 transition-colors cursor-pointer">
       <div className="flex items-center gap-space-2 mb-space-2">
-        <Flask className="w-4 h-4 text-[#ec4899]" />
+        <FlaskConical className="w-4 h-4 text-[#ec4899]" />
         <span className="px-space-1 py-0.5 bg-[#ec4899]/15 text-[#ec4899] rounded-sm text-fs-xs">{status}</span>
       </div>
       <h3 className="font-display text-fs-base font-medium text-ink mb-space-1">{name}</h3>
