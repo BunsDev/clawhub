@@ -185,7 +185,7 @@ function DiscoveryHome() {
           }}
         >
           <DiscoveryGrid>
-            {trending.slice(0, 6).map((entry, index) => (
+            {trending.slice(0, 8).map((entry, index) => (
               <DiscoveryCard
                 key={entry.skill._id}
                 skill={entry.skill}
@@ -234,7 +234,7 @@ function DiscoveryHome() {
           }}
         >
           <DiscoveryGrid>
-            {recent.slice(0, 6).map((entry, index) => (
+            {recent.slice(0, 8).map((entry, index) => (
               <DiscoveryCard
                 key={entry.skill._id}
                 skill={entry.skill}
@@ -264,7 +264,7 @@ function DiscoveryHome() {
           }}
         >
           <DiscoveryGrid>
-            {staffPicks.map((entry) => (
+            {staffPicks.slice(0, 8).map((entry) => (
               <DiscoveryCard
                 key={entry.skill._id}
                 skill={entry.skill}

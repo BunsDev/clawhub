@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { MessageCircle, Star, Download, GitFork, Users } from "lucide-react";
+import { ArrowRight, MessageCircle, Star, Download, GitFork, Sparkles, Terminal, Zap } from "lucide-react";
 import { Button } from "../ui/button";
 
 type ActivityItem = {
@@ -59,20 +59,29 @@ const SAMPLE_ACTIVITY: ActivityItem[] = [
     skillOwner: "ai-enthusiast",
     timeAgo: "32 min ago",
   },
+  {
+    id: "6",
+    type: "star",
+    user: "code_ninja",
+    userInitial: "N",
+    skillName: "mcp-connector",
+    skillOwner: "dev-tools",
+    timeAgo: "45 min ago",
+  },
 ];
 
 function getActivityIcon(type: ActivityItem["type"]) {
   switch (type) {
     case "star":
-      return <Star size={14} />;
+      return <Star size={12} />;
     case "download":
-      return <Download size={14} />;
+      return <Download size={12} />;
     case "fork":
-      return <GitFork size={14} />;
+      return <GitFork size={12} />;
     case "comment":
-      return <MessageCircle size={14} />;
+      return <MessageCircle size={12} />;
     case "publish":
-      return <Users size={14} />;
+      return <Sparkles size={12} />;
     default:
       return null;
   }
@@ -85,7 +94,7 @@ function getActivityText(item: ActivityItem) {
         <>
           <strong>{item.user}</strong> starred{" "}
           <Link to="/$owner/$slug" params={{ owner: item.skillOwner, slug: item.skillName }}>
-            {item.skillOwner}/{item.skillName}
+            {item.skillName}
           </Link>
         </>
       );
@@ -94,7 +103,7 @@ function getActivityText(item: ActivityItem) {
         <>
           <strong>{item.user}</strong> downloaded{" "}
           <Link to="/$owner/$slug" params={{ owner: item.skillOwner, slug: item.skillName }}>
-            {item.skillOwner}/{item.skillName}
+            {item.skillName}
           </Link>
         </>
       );
@@ -103,7 +112,7 @@ function getActivityText(item: ActivityItem) {
         <>
           <strong>{item.user}</strong> forked{" "}
           <Link to="/$owner/$slug" params={{ owner: item.skillOwner, slug: item.skillName }}>
-            {item.skillOwner}/{item.skillName}
+            {item.skillName}
           </Link>
         </>
       );
@@ -112,7 +121,7 @@ function getActivityText(item: ActivityItem) {
         <>
           <strong>{item.user}</strong> commented on{" "}
           <Link to="/$owner/$slug" params={{ owner: item.skillOwner, slug: item.skillName }}>
-            {item.skillOwner}/{item.skillName}
+            {item.skillName}
           </Link>
         </>
       );
@@ -132,50 +141,59 @@ function getActivityText(item: ActivityItem) {
 
 export function CommunitySection() {
   return (
-    <section className="discovery-community-section">
-      <div className="discovery-community-inner">
-        <header className="discovery-community-header">
-          <h2 className="discovery-community-title">Community Activity</h2>
-          <p className="discovery-community-subtitle">
-            See what developers are building, sharing, and discovering in real-time.
-          </p>
-        </header>
-
-        <div className="discovery-activity-feed">
-          {SAMPLE_ACTIVITY.map((item) => (
-            <div key={item.id} className="discovery-activity-item">
-              <div className="discovery-activity-avatar">{item.userInitial}</div>
-              <div className="discovery-activity-content">
-                <p className="discovery-activity-text">{getActivityText(item)}</p>
-                <div className="discovery-activity-meta">
+    <section className="community-section-full">
+      <div className="community-section-inner">
+        {/* Left: Activity Stream */}
+        <div className="community-activity-panel">
+          <div className="community-panel-header">
+            <Terminal size={16} aria-hidden="true" />
+            <span>Live Activity</span>
+          </div>
+          <div className="community-activity-stream">
+            {SAMPLE_ACTIVITY.map((item) => (
+              <div key={item.id} className="community-activity-row">
+                <span className="community-activity-icon">
                   {getActivityIcon(item.type)}
-                  <span className="discovery-activity-time">{item.timeAgo}</span>
-                </div>
+                </span>
+                <span className="community-activity-text">{getActivityText(item)}</span>
+                <span className="community-activity-time">{item.timeAgo}</span>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
-        <div className="discovery-community-join">
-          <p>Join the community and share your creations</p>
-          <div className="discovery-community-actions">
-            <Link to="/upload">
-              <Button variant="primary">Publish Your Skill</Button>
-            </Link>
-            <Link
-              to="/skills"
-              search={{
-                q: undefined,
-                sort: "newest" as const,
-                dir: undefined,
-                highlighted: undefined,
-                nonSuspicious: true,
-                view: undefined,
-                focus: undefined,
-              }}
-            >
-              <Button variant="secondary">Explore Latest</Button>
-            </Link>
+        {/* Right: Call to Action */}
+        <div className="community-cta-panel">
+          <div className="community-cta-content">
+            <div className="community-cta-icon">
+              <Zap size={24} aria-hidden="true" />
+            </div>
+            <h3 className="community-cta-title">Create & Share</h3>
+            <p className="community-cta-desc">
+              Join thousands of developers building and sharing tools for the AI ecosystem.
+            </p>
+            <div className="community-cta-buttons">
+              <Link to="/upload" className="community-cta-btn primary">
+                <Sparkles size={14} aria-hidden="true" />
+                Publish a Skill
+              </Link>
+              <Link
+                to="/skills"
+                search={{
+                  q: undefined,
+                  sort: "newest" as const,
+                  dir: undefined,
+                  highlighted: undefined,
+                  nonSuspicious: true,
+                  view: undefined,
+                  focus: undefined,
+                }}
+                className="community-cta-btn secondary"
+              >
+                Browse All
+                <ArrowRight size={14} aria-hidden="true" />
+              </Link>
+            </div>
           </div>
         </div>
       </div>
