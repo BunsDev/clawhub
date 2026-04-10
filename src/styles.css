@@ -3,6 +3,7 @@
 @import "@fontsource/manrope/latin.css";
 @import "@fontsource/ibm-plex-mono/latin.css";
 
+/* Premium Editorial Marketplace Theme */
 @theme {
   /* Colors — core palette */
   --color-bg: var(--bg);
