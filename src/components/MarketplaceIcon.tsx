@@ -4,7 +4,7 @@ type MarketplaceIconProps = {
   kind: "skill" | "plugin" | "soul" | "user";
   label: string;
   imageUrl?: string | null;
-  size?: "sm" | "md";
+  size?: "sm" | "md" | "lg";
 };
 
 const TONES = [
