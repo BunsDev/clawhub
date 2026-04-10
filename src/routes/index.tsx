@@ -18,6 +18,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { api } from "../../convex/_generated/api";
 import { SkillCard } from "../components/SkillCard";
 import { SkillListItem } from "../components/SkillListItem";
+import { SkillListItemSkeleton } from "../components/skeletons/SkillListItemSkeleton";
+import { SkillCardSkeleton } from "../components/skeletons/SkillCardSkeleton";
 import { SkillStatsTripletLine } from "../components/SkillStats";
 import { SoulCard } from "../components/SoulCard";
 import { SoulStatsTripletLine } from "../components/SoulStats";
@@ -67,19 +69,23 @@ function SkillsHome() {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = Route.useNavigate();
 
+  const [isLoading, setIsLoading] = useState(true);
+  const MIN_ITEMS = 8;
+
   useEffect(() => {
     let cancelled = false;
+    setIsLoading(true);
 
     Promise.all([
-      convexHttp.query(api.skills.listHighlightedPublic, { limit: 6 }),
+      convexHttp.query(api.skills.listHighlightedPublic, { limit: MIN_ITEMS }),
       convexHttp.query(api.skills.listPublicPageV4, {
-        numItems: 6,
+        numItems: MIN_ITEMS,
         sort: "downloads",
         dir: "desc",
         nonSuspiciousOnly: true,
       }),
       convexHttp.query(api.skills.listPublicPageV4, {
-        numItems: 6,
+        numItems: MIN_ITEMS,
         sort: "updated",
         dir: "desc",
         nonSuspiciousOnly: true,
@@ -92,8 +98,11 @@ function SkillsHome() {
         setTrending((t as { page: SkillPageEntry[] }).page);
         setRecent((r as { page: SkillPageEntry[] }).page);
         setSkillCount(c as number);
+        setIsLoading(false);
       })
-      .catch(() => {});
+      .catch(() => {
+        if (!cancelled) setIsLoading(false);
+      });
 
     return () => {
       cancelled = true;
@@ -255,114 +264,120 @@ function SkillsHome() {
       </section>
 
       {/* Trending */}
-      {trending.length > 0 ? (
-        <section className="home-section">
-          <div className="home-section-header">
-            <h2 className="home-section-title">
-              <span className="home-section-title-icon trending">
-                <TrendingUp size={16} />
-              </span>
-              Trending Now
-            </h2>
-            <Link
-              to="/skills"
-              search={{
-                q: undefined,
-                sort: "downloads" as const,
-                dir: "desc" as const,
-                highlighted: undefined,
-                nonSuspicious: true,
-                view: undefined,
-                focus: undefined,
-              }}
-              className="home-section-link"
-            >
-              View all
-              <ArrowRight size={14} />
-            </Link>
-          </div>
-          <div className="results-list">
-            {trending.map((entry) => (
+      <section className="home-section">
+        <div className="home-section-header">
+          <h2 className="home-section-title">
+            <span className="home-section-title-icon trending">
+              <TrendingUp size={16} />
+            </span>
+            Trending Now
+          </h2>
+          <Link
+            to="/skills"
+            search={{
+              q: undefined,
+              sort: "downloads" as const,
+              dir: "desc" as const,
+              highlighted: undefined,
+              nonSuspicious: true,
+              view: undefined,
+              focus: undefined,
+            }}
+            className="home-section-link"
+          >
+            View all
+            <ArrowRight size={14} />
+          </Link>
+        </div>
+        <div className="results-list">
+          {isLoading ? (
+            Array.from({ length: MIN_ITEMS }, (_, i) => <SkillListItemSkeleton key={i} />)
+          ) : (
+            trending.map((entry) => (
               <SkillListItem
                 key={entry.skill._id}
                 skill={entry.skill}
                 ownerHandle={entry.ownerHandle}
                 owner={entry.owner}
               />
-            ))}
-          </div>
-        </section>
-      ) : null}
+            ))
+          )}
+        </div>
+      </section>
 
       {/* Recently updated */}
-      {recent.length > 0 ? (
-        <section className="home-section">
-          <div className="home-section-header">
-            <h2 className="home-section-title">
-              <span className="home-section-title-icon recent">
-                <Sparkles size={16} />
-              </span>
-              Recently Updated
-            </h2>
-            <Link
-              to="/skills"
-              search={{
-                q: undefined,
-                sort: "updated" as const,
-                dir: "desc" as const,
-                highlighted: undefined,
-                nonSuspicious: true,
-                view: undefined,
-                focus: undefined,
-              }}
-              className="home-section-link"
-            >
-              View all
-              <ArrowRight size={14} />
-            </Link>
-          </div>
-          <div className="results-list">
-            {recent.map((entry) => (
+      <section className="home-section">
+        <div className="home-section-header">
+          <h2 className="home-section-title">
+            <span className="home-section-title-icon recent">
+              <Sparkles size={16} />
+            </span>
+            Recently Updated
+          </h2>
+          <Link
+            to="/skills"
+            search={{
+              q: undefined,
+              sort: "updated" as const,
+              dir: "desc" as const,
+              highlighted: undefined,
+              nonSuspicious: true,
+              view: undefined,
+              focus: undefined,
+            }}
+            className="home-section-link"
+          >
+            View all
+            <ArrowRight size={14} />
+          </Link>
+        </div>
+        <div className="results-list">
+          {isLoading ? (
+            Array.from({ length: MIN_ITEMS }, (_, i) => <SkillListItemSkeleton key={i} />)
+          ) : (
+            recent.map((entry) => (
               <SkillListItem
                 key={entry.skill._id}
                 skill={entry.skill}
                 ownerHandle={entry.ownerHandle}
                 owner={entry.owner}
               />
-            ))}
-          </div>
-        </section>
-      ) : null}
+            ))
+          )}
+        </div>
+      </section>
 
       {/* Staff picks */}
-      {highlighted.length > 0 ? (
-        <section className="home-section">
-          <div className="home-section-header">
-            <h2 className="home-section-title">
-              <span className="home-section-title-icon featured">
-                <Star size={16} />
-              </span>
-              Staff Picks
-            </h2>
-            <Link
-              to="/skills"
-              search={{
-                q: undefined,
-                sort: undefined,
-                dir: undefined,
-                highlighted: true,
-                nonSuspicious: undefined,
-                view: undefined,
-                focus: undefined,
-              }}
-              className="home-section-link"
-            >
-              View all
-              <ArrowRight size={14} />
-            </Link>
-          </div>
-          <div className="grid">
-            {highlighted.map((entry) => (
+      <section className="home-section">
+        <div className="home-section-header">
+          <h2 className="home-section-title">
+            <span className="home-section-title-icon featured">
+              <Star size={16} />
+            </span>
+            Staff Picks
+          </h2>
+          <Link
+            to="/skills"
+            search={{
+              q: undefined,
+              sort: undefined,
+              dir: undefined,
+              highlighted: true,
+              nonSuspicious: undefined,
+              view: undefined,
+              focus: undefined,
+            }}
+            className="home-section-link"
+          >
+            View all
+            <ArrowRight size={14} />
+          </Link>
+        </div>
+        <div className="grid">
+          {isLoading ? (
+            Array.from({ length: MIN_ITEMS }, (_, i) => <SkillCardSkeleton key={i} />)
+          ) : (
+            highlighted.map((entry) => (
               <SkillCard
                 key={entry.skill._id}
                 skill={entry.skill}
@@ -382,10 +397,10 @@ function SkillsHome() {
                   </div>
                 }
               />
-            ))}
-          </div>
-        </section>
-      ) : null}
+            ))
+          )}
+        </div>
+      </section>
 
       {/* Categories */}
       <section className="home-section">

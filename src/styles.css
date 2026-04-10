@@ -5836,11 +5836,15 @@ html.theme-transition::view-transition-new(theme) {
 
 .skill-list-item:last-child {
   border-bottom: none;
-}
-
-.skill-list-item:hover {
+  }
+  
+  .skill-list-item:hover {
   background: var(--hover-bg);
-}
+  }
+  
+  .skill-list-item-skeleton {
+  pointer-events: none;
+  }
 
 .skill-list-item-main {
   display: flex;
