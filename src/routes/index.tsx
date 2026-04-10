@@ -50,24 +50,38 @@ function DiscoveryHome() {
     setIsLoading(true);
     setLoadError(null);
 
-    Promise.all([
-      convexHttp.query(api.skills.listHighlightedPublic, { limit: 8 }).catch(() => []),
+    const queries = [
+      convexHttp.query(api.skills.listHighlightedPublic, { limit: 8 }),
       convexHttp.query(api.skills.listPublicPageV4, {
         numItems: 8,
         sort: "downloads",
         dir: "desc",
         nonSuspiciousOnly: true,
-      }).catch(() => ({ page: [] })),
+      }),
       convexHttp.query(api.skills.listPublicPageV4, {
         numItems: 8,
         sort: "updated",
         dir: "desc",
         nonSuspiciousOnly: true,
-      }).catch(() => ({ page: [] })),
-      convexHttp.query(api.skills.countPublicSkills, {}).catch(() => null),
-    ])
-      .then(([h, t, r, c]) => {
+      }),
+      convexHttp.query(api.skills.countPublicSkills, {}),
+    ];
+
+    Promise.allSettled(queries)
+      .then((results) => {
         if (cancelled) return;
+        const allRejected = results.every((r) => r.status === "rejected");
+        if (allRejected) {
+          setLoadError("Failed to load content. Please try again.");
+          setIsLoading(false);
+          return;
+        }
+
+        const h = results[0].status === "fulfilled" ? results[0].value : [];
+        const t = results[1].status === "fulfilled" ? results[1].value : { page: [] };
+        const r = results[2].status === "fulfilled" ? results[2].value : { page: [] };
+        const c = results[3].status === "fulfilled" ? results[3].value : null;
+
         const highlighted = (h ?? []) as SkillPageEntry[];
         setFeatured(highlighted.slice(0, 4));
         setStaffPicks(highlighted.slice(4, 8));
@@ -76,7 +90,7 @@ function DiscoveryHome() {
         setSkillCount(c as number | null);
         setIsLoading(false);
       })
-      .catch((err) => {
+      .catch(() => {
         if (cancelled) return;
         setLoadError("Failed to load content. Please try again.");
         setIsLoading(false);
@@ -278,7 +292,7 @@ function DiscoveryHome() {
 
       {/* Stats Banner */}
       <DiscoverySection title="" className="discovery-section" linkTo={undefined}>
-        <StatsBar skillCount={skillCount} downloadCount={12500} userCount={850} />
+        <StatsBar skillCount={skillCount} />
       </DiscoverySection>
 
       {/* Quick links footer */}

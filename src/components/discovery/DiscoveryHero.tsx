@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { ArrowRight, Package, Search, Sparkles, Star, TrendingUp } from "lucide-react";
+import { ArrowRight, Package, Search, Sparkles, Star } from "lucide-react";
 import { useState } from "react";
 import { MarketplaceIcon } from "../MarketplaceIcon";
 import { formatCompactStat } from "../../lib/numberFormat";
@@ -97,7 +97,7 @@ export function DiscoveryHero({ skillCount, featuredSkills = [] }: DiscoveryHero
                 className={`discovery-mosaic-card ${isFeatured ? "featured" : ""}`}
               >
                 {index === 0 && <span className="discovery-mosaic-badge">Featured</span>}
-                {index === 1 && <span className="discovery-mosaic-badge">Trending</span>}
+                {index === 1 && <span className="discovery-mosaic-badge">Staff Pick</span>}
                 
                 <div className="discovery-mosaic-icon">
                   <MarketplaceIcon kind="skill" label={entry.skill.displayName} size="md" />
