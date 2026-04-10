@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { api } from "../../convex/_generated/api";
 import {
   CategoryTiles,
+  CommunitySection,
   DiscoveryCard,
   DiscoveryGrid,
   DiscoveryHero,
@@ -280,6 +281,9 @@ function DiscoveryHome() {
       <DiscoverySection title="" className="discovery-section" linkTo={undefined}>
         <StatsBar skillCount={skillCount} downloadCount={12500} userCount={850} />
       </DiscoverySection>
+
+      {/* Full-width Community Activity Section */}
+      <CommunitySection />
 
       {/* Community CTA */}
       <DiscoverySection title="" className="discovery-section" linkTo={undefined}>

@@ -81,6 +81,15 @@ export const Route = createFileRoute("/plugins/")({
   }),
   loaderDeps: ({ search }) => search,
   loader: async ({ deps }): Promise<PluginsLoaderData> => {
+    // Wrap entire loader in defensive error handling
+    const errorResult: PluginsLoaderData = {
+      items: [],
+      nextCursor: null,
+      rateLimited: false,
+      retryAfterSeconds: null,
+      error: true,
+    };
+    
     try {
       const data = await fetchPluginCatalog({
         q: deps.q,
@@ -89,7 +98,34 @@ export const Route = createFileRoute("/plugins/")({
         isOfficial: deps.verified,
         executesCode: deps.executesCode,
         limit: 50,
+      }).catch((err) => {
+        // Handle any promise rejection from fetchPluginCatalog
+        if (isRateLimitedPackageApiError(err)) {
+          return {
+            items: [],
+            nextCursor: null,
+            _rateLimited: true,
+            _retryAfter: (err as { retryAfterSeconds?: number }).retryAfterSeconds ?? null,
+          };
+        }
+        return null;
       });
+      
+      if (!data) {
+        return errorResult;
+      }
+      
+      // Check if this was a rate-limited response
+      if ((data as { _rateLimited?: boolean })._rateLimited) {
+        return {
+          items: [],
+          nextCursor: null,
+          rateLimited: true,
+          retryAfterSeconds: (data as { _retryAfter?: number | null })._retryAfter ?? null,
+          error: false,
+        };
+      }
+      
       return {
         items: data.items ?? [],
         nextCursor: data.nextCursor ?? null,
@@ -97,25 +133,9 @@ export const Route = createFileRoute("/plugins/")({
         retryAfterSeconds: null,
         error: false,
       };
-    } catch (error: unknown) {
-      if (isRateLimitedPackageApiError(error)) {
-        return {
-          items: [],
-          nextCursor: null,
-          rateLimited: true,
-          retryAfterSeconds: (error as { retryAfterSeconds?: number }).retryAfterSeconds ?? null,
-          error: false,
-        };
-      }
-      // Handle all other errors gracefully instead of throwing
-      console.error("[v0] Plugins loader error:", error);
-      return {
-        items: [],
-        nextCursor: null,
-        rateLimited: false,
-        retryAfterSeconds: null,
-        error: true,
-      };
+    } catch {
+      // Final fallback - should never reach here but just in case
+      return errorResult;
     }
   },
   component: PluginsIndex,

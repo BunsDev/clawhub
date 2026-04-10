@@ -56,6 +56,16 @@ function PluginDetailErrorComponent() {
 export const Route = createFileRoute("/plugins/$name")({
   errorComponent: PluginDetailErrorComponent,
   loader: async ({ params }): Promise<PluginDetailLoaderData> => {
+    // Defensive error result
+    const errorResult: PluginDetailLoaderData = {
+      detail: { package: null, owner: null },
+      version: null,
+      readme: null,
+      rateLimited: null,
+      error: true,
+    };
+    
+    try {
     const requestedName = params.name;
     const candidateNames = requestedName.includes("/")
       ? [requestedName]
@@ -132,6 +142,10 @@ export const Route = createFileRoute("/plugins/$name")({
       : Promise.resolve(null);
     const [version, readme] = await Promise.all([versionPromise, readmePromise]);
     return { detail, version, readme, rateLimited: metadataRateLimited, error: false };
+    } catch {
+      // Final fallback - should never reach here but just in case
+      return errorResult;
+    }
   },
   head: ({ params, loaderData }) => ({
     meta: [
