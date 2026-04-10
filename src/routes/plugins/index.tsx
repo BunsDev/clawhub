@@ -80,7 +80,7 @@ export const Route = createFileRoute("/plugins/")({
         : undefined,
   }),
   loaderDeps: ({ search }) => search,
-  loader: async ({ deps }) => {
+  loader: async ({ deps }): Promise<PluginsLoaderData> => {
     try {
       const data = await fetchPluginCatalog({
         q: deps.q,
@@ -96,8 +96,8 @@ export const Route = createFileRoute("/plugins/")({
         rateLimited: false,
         retryAfterSeconds: null,
         error: false,
-      } satisfies PluginsLoaderData;
-    } catch (error) {
+      };
+    } catch (error: unknown) {
       if (isRateLimitedPackageApiError(error)) {
         return {
           items: [],
@@ -105,16 +105,17 @@ export const Route = createFileRoute("/plugins/")({
           rateLimited: true,
           retryAfterSeconds: (error as { retryAfterSeconds?: number }).retryAfterSeconds ?? null,
           error: false,
-        } satisfies PluginsLoaderData;
+        };
       }
       // Handle all other errors gracefully instead of throwing
+      console.error("[v0] Plugins loader error:", error);
       return {
         items: [],
         nextCursor: null,
         rateLimited: false,
         retryAfterSeconds: null,
         error: true,
-      } satisfies PluginsLoaderData;
+      };
     }
   },
   component: PluginsIndex,

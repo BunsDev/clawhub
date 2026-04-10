@@ -248,6 +248,13 @@ body {
 
 html {
   scrollbar-gutter: stable;
+  overflow-x: hidden;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 a {
@@ -282,10 +289,15 @@ code {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 .app-shell main {
   flex: 1;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 .site-footer {
@@ -5682,6 +5694,18 @@ html.theme-transition::view-transition-new(theme) {
   transform: translateY(-1px);
 }
 
+@media (max-width: 640px) {
+  .home-quick-links {
+    gap: var(--space-2);
+    padding: var(--space-3);
+  }
+  
+  .home-quick-link {
+    padding: 8px 14px;
+    font-size: var(--fs-xs);
+  }
+}
+
 @media (max-width: 760px) {
   .home-hero {
     padding: var(--space-5) var(--space-4) var(--space-5);
@@ -6503,8 +6527,10 @@ html.theme-transition::view-transition-new(theme) {
   max-width: var(--page-max);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(360px, 0.9fr);
-  gap: clamp(32px, 6vw, 64px);
+  grid-template-columns: minmax(0, 1.1fr) minmax(min(360px, 100%), 0.9fr);
+  gap: clamp(24px, 5vw, 64px);
+  width: 100%;
+  box-sizing: border-box;
   align-items: center;
 }
 
@@ -6512,6 +6538,9 @@ html.theme-transition::view-transition-new(theme) {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .discovery-hero-badge {
@@ -6569,7 +6598,7 @@ html.theme-transition::view-transition-new(theme) {
   font-size: clamp(1rem, 1.8vw, 1.2rem);
   color: var(--ink-soft);
   line-height: 1.65;
-  max-width: 520px;
+  max-width: min(520px, 100%);
   margin: 0;
 }
 
@@ -6629,6 +6658,24 @@ html.theme-transition::view-transition-new(theme) {
   background: linear-gradient(135deg, var(--accent-deep), var(--accent));
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(255, 107, 74, 0.4);
+}
+
+@media (max-width: 640px) {
+  .discovery-hero-search {
+    padding: 6px 6px 6px 16px;
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .discovery-hero-search button {
+    padding: 10px 18px;
+    font-size: var(--fs-xs);
+  }
+  
+  .discovery-hero-search input {
+    font-size: var(--fs-sm);
+  }
 }
 
 .discovery-hero-tags {
@@ -6822,6 +6869,9 @@ html.theme-transition::view-transition-new(theme) {
   max-width: var(--page-max);
   margin: 0 auto;
   padding: var(--space-6) var(--space-5);
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .discovery-section-header {
@@ -6880,12 +6930,23 @@ html.theme-transition::view-transition-new(theme) {
 /* Discovery card grid */
 .discovery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
   gap: var(--space-4);
+  width: 100%;
 }
 
 .discovery-grid-featured {
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
+}
+
+@media (max-width: 640px) {
+  .discovery-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .discovery-grid-featured {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Enhanced skill card for discovery */
@@ -7357,10 +7418,24 @@ html.theme-transition::view-transition-new(theme) {
   scrollbar-width: none;
   -ms-overflow-style: none;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .discovery-trending-bar::-webkit-scrollbar {
   display: none;
+}
+
+@media (max-width: 640px) {
+  .discovery-trending-bar {
+    padding: var(--space-2) var(--space-3);
+    gap: var(--space-2);
+    border-radius: var(--r-lg);
+  }
+  
+  .discovery-trending-label {
+    display: none;
+  }
 }
 
 .discovery-trending-label {
@@ -7555,6 +7630,7 @@ html.theme-transition::view-transition-new(theme) {
     flex-direction: column;
     text-align: center;
     gap: var(--space-4);
+    padding: var(--space-5);
   }
   
   .discovery-cta-desc {
@@ -7562,6 +7638,23 @@ html.theme-transition::view-transition-new(theme) {
   }
   
   .discovery-cta-actions {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .discovery-cta-button {
+    padding: 10px 20px;
+    font-size: var(--fs-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  .discovery-cta-actions {
+    flex-direction: column;
+  }
+  
+  .discovery-cta-button {
     width: 100%;
     justify-content: center;
   }
@@ -7611,18 +7704,20 @@ html.theme-transition::view-transition-new(theme) {
     min-height: 320px;
   }
 
-  .discovery-spotlight {
-    grid-template-columns: 1fr;
-  }
+.discovery-spotlight {
+  grid-template-columns: 1fr;
+  padding: var(--space-5);
+  gap: var(--space-4);
+}
 
-  .discovery-spotlight-visual {
-    order: -1;
-  }
+.discovery-spotlight-visual {
+  order: -1;
+}
 
-  .discovery-stats-banner {
-    flex-wrap: wrap;
-    gap: var(--space-4);
-  }
+.discovery-stats-banner {
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
 }
 
 @media (max-width: 640px) {
@@ -7646,11 +7741,83 @@ html.theme-transition::view-transition-new(theme) {
 
   .discovery-categories {
     grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
   }
 
   .discovery-stats-banner {
     flex-direction: column;
     gap: var(--space-3);
+    padding: var(--space-4);
+  }
+  
+  .discovery-stat-value {
+    font-size: var(--fs-2xl);
+  }
+  
+  .discovery-spotlight {
+    padding: var(--space-4);
+    gap: var(--space-3);
+  }
+  
+  .discovery-card {
+    padding: var(--space-3);
+  }
+  
+  .discovery-section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+  
+  .discovery-section-link {
+    align-self: flex-start;
+  }
+  
+  .discovery-hero-title {
+    font-size: clamp(2rem, 8vw, 2.75rem);
+  }
+  
+  .discovery-hero-subtitle {
+    font-size: var(--fs-base);
+  }
+  
+  .discovery-hero-copy {
+    text-align: center;
+    align-items: center;
+  }
+  
+  .discovery-hero-tags {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 380px) {
+  .discovery-hero {
+    padding: var(--space-4) var(--space-3);
+  }
+  
+  .discovery-section {
+    padding: var(--space-4) var(--space-3);
+  }
+  
+  .discovery-categories {
+    grid-template-columns: 1fr;
+  }
+  
+  .discovery-hero-title {
+    font-size: 1.75rem;
+  }
+  
+  .discovery-category {
+    padding: var(--space-4);
+  }
+  
+  .discovery-cta-banner {
+    padding: var(--space-4);
+  }
+  
+  .discovery-cta-title {
+    font-size: var(--fs-lg);
   }
 }
 
