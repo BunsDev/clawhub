@@ -281,6 +281,38 @@ function DiscoveryHome() {
         <StatsBar skillCount={skillCount} downloadCount={12500} userCount={850} />
       </DiscoverySection>
 
+      {/* Community CTA */}
+      <DiscoverySection title="" className="discovery-section" linkTo={undefined}>
+        <div className="discovery-cta-banner">
+          <div className="discovery-cta-content">
+            <h3 className="discovery-cta-title">Build something amazing</h3>
+            <p className="discovery-cta-desc">
+              Share your skills with thousands of developers. Get feedback, collaborate, and grow your audience.
+            </p>
+          </div>
+          <div className="discovery-cta-actions">
+            <Link to="/upload" className="discovery-cta-button primary">
+              Publish a Skill
+            </Link>
+            <Link 
+              to="/skills"
+              search={{
+                q: undefined,
+                sort: undefined,
+                dir: undefined,
+                highlighted: undefined,
+                nonSuspicious: true,
+                view: undefined,
+                focus: undefined,
+              }}
+              className="discovery-cta-button secondary"
+            >
+              Explore All
+            </Link>
+          </div>
+        </div>
+      </DiscoverySection>
+
       {/* Quick links footer */}
       <section className="discovery-section">
         <div className="home-quick-links">

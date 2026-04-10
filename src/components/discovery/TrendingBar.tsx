@@ -7,12 +7,13 @@ type TrendingItem = {
 };
 
 const DEFAULT_TRENDING: TrendingItem[] = [
-  { label: "claude-skills", query: "claude" },
-  { label: "mcp-tools", query: "mcp tools" },
-  { label: "workflow-automation", query: "workflow automation" },
-  { label: "code-generation", query: "code generation" },
-  { label: "api-wrappers", query: "api wrapper" },
-  { label: "llm-prompts", query: "llm prompt" },
+  { label: "Claude MCP", query: "claude mcp" },
+  { label: "AI Agents", query: "ai agent" },
+  { label: "Code Gen", query: "code generation" },
+  { label: "Automation", query: "automation" },
+  { label: "API Tools", query: "api tools" },
+  { label: "Workflows", query: "workflow" },
+  { label: "Chat Bots", query: "chat bot" },
 ];
 
 type TrendingBarProps = {

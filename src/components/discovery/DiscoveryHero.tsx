@@ -29,11 +29,12 @@ export function DiscoveryHero({ skillCount, featuredSkills = [] }: DiscoveryHero
   };
 
   const trendingTags = [
-    { label: "automation", query: "automation" },
-    { label: "ai-agents", query: "ai agents" },
-    { label: "developer-tools", query: "developer tools" },
-    { label: "productivity", query: "productivity" },
-    { label: "api-tools", query: "api tools" },
+    { label: "AI Agents", query: "ai agents" },
+    { label: "Automation", query: "automation" },
+    { label: "MCP Tools", query: "mcp tools" },
+    { label: "Dev Tools", query: "developer tools" },
+    { label: "Workflows", query: "workflow" },
+    { label: "LLM", query: "llm" },
   ];
 
   return (
@@ -46,13 +47,13 @@ export function DiscoveryHero({ skillCount, featuredSkills = [] }: DiscoveryHero
           </div>
           
           <h1 className="discovery-hero-title">
-            The home for <span>agent skills</span> and tools
+            Discover <span>powerful tools</span> built by the community
           </h1>
           
           <p className="discovery-hero-subtitle">
             {skillCount != null
-              ? `Explore ${formatCompactStat(skillCount)}+ skill bundles, plugins, and automation tools built by the community. Find what you need, fork the best, and ship your own.`
-              : "Explore skill bundles, plugins, and automation tools built by the community. Find what you need, fork the best, and ship your own."}
+              ? `Browse ${formatCompactStat(skillCount)}+ curated skills, plugins, and automation tools. Find hidden gems, get inspired, and build something amazing.`
+              : "Browse curated skills, plugins, and automation tools. Find hidden gems, get inspired, and build something amazing."}
           </p>
 
           <form className="discovery-hero-search" onSubmit={handleSearch}>

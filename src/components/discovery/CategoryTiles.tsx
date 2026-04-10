@@ -22,13 +22,13 @@ type Category = {
 };
 
 const CATEGORIES: Category[] = [
-  { id: "automation", label: "Automation", query: "automation", icon: Workflow, color: "coral" },
-  { id: "ai-agents", label: "AI Agents", query: "ai agent", icon: Bot, color: "seafoam" },
+  { id: "ai-agents", label: "AI Agents", query: "ai agent", icon: Bot, color: "coral" },
+  { id: "automation", label: "Automation", query: "automation", icon: Workflow, color: "seafoam" },
   { id: "developer-tools", label: "Dev Tools", query: "developer tools", icon: Code2, color: "amber" },
-  { id: "api-tools", label: "API Tools", query: "api", icon: Globe, color: "violet" },
-  { id: "data", label: "Data", query: "data", icon: Database, color: "coral" },
-  { id: "integrations", label: "Integrations", query: "integration", icon: Zap, color: "seafoam" },
-  { id: "chat", label: "Chat & LLM", query: "chat llm", icon: MessageSquare, color: "amber" },
+  { id: "integrations", label: "Integrations", query: "integration", icon: Zap, color: "violet" },
+  { id: "chat", label: "Chat & LLM", query: "chat llm", icon: MessageSquare, color: "coral" },
+  { id: "api-tools", label: "API Tools", query: "api", icon: Globe, color: "seafoam" },
+  { id: "data", label: "Data & Storage", query: "data", icon: Database, color: "amber" },
   { id: "utilities", label: "Utilities", query: "utility", icon: Settings, color: "violet" },
 ];
 
