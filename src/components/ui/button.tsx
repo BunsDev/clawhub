@@ -35,11 +35,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           "disabled:pointer-events-none disabled:opacity-60",
           // Hover lift
           "hover:not-disabled:-translate-y-px hover:not-disabled:shadow-hover",
-          // Variant styles
+          // Variant styles — Premium editorial aesthetic
           variant === "default" &&
-            "border border-[color:var(--line)] bg-[color:var(--surface)] text-[color:var(--ink)]",
+            "border border-[color:var(--line)] bg-[color:var(--surface)] text-[color:var(--ink)] shadow-[var(--shadow)]",
           variant === "primary" &&
-            "border border-accent bg-accent/10 text-[color:var(--ink)]",
+            "border-none bg-[color:var(--accent)] text-white shadow-[0_2px_8px_rgba(196,92,62,0.3)]",
           variant === "destructive" &&
             "border border-status-error-fg/20 bg-status-error-bg text-status-error-fg hover:not-disabled:bg-active-bg",
           variant === "ghost" &&
