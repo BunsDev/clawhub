@@ -14,7 +14,7 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
         "inline-flex items-center gap-1.5 rounded-[var(--radius-sm)] text-fs-xs font-medium tracking-wide",
         // Variant styles — soft, refined colors
         variant === "default" && "bg-[color:var(--surface-muted)] px-3 py-1.5 text-[color:var(--ink-soft)] border-none",
-        variant === "accent" && "bg-[rgba(196,92,62,0.1)] px-3 py-1.5 text-[color:var(--accent)] border-none",
+        variant === "accent" && "bg-[rgba(214,69,65,0.1)] px-3 py-1.5 text-[color:var(--accent)] border-none",
         variant === "compact" && "bg-[color:var(--surface-muted)] px-2.5 py-1 text-fs-xs text-[color:var(--ink-soft)] border-none",
         variant === "pending" && "bg-status-warning-bg px-3 py-1.5 text-status-warning-fg border-none",
         variant === "success" && "bg-status-success-bg px-3 py-1.5 text-status-success-fg border-none",

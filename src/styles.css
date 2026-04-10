@@ -94,61 +94,62 @@
 :root {
   color-scheme: light;
 
-  /* Premium editorial palette — warm, inviting, Apple-inspired */
-  --bg: #faf9f7;
-  --bg-soft: #f5f3f0;
-  --bg-glow-1: #fff8f0;
-  --bg-glow-2: #f0f5ff;
+  /* OpenClaw Editorial Palette — Apple-inspired, soft red branding */
+  --bg: #fbfbfd;
+  --bg-soft: #f5f5f7;
+  --bg-glow-1: #fff5f5;
+  --bg-glow-2: #f5f8ff;
   --surface: #ffffff;
-  --surface-muted: #fafafa;
-  --nav-bg: rgba(250, 249, 247, 0.92);
+  --surface-muted: #f9f9fb;
+  --nav-bg: rgba(251, 251, 253, 0.88);
   --ink: #1d1d1f;
-  --ink-soft: #6e6e73;
-  --accent: #c45c3e;
+  --ink-soft: #86868b;
+  --accent: #d64541;
   --accent-fg: #ffffff;
-  --accent-deep: #a04830;
-  --seafoam: #5e9e8b;
+  --accent-deep: #b83b38;
+  --accent-light: #e8706c;
+  --seafoam: #34c759;
   --diff-added: #34c759;
   --diff-added-strong: #28a745;
   --diff-removed: #ff3b30;
   --diff-removed-strong: #dc3545;
-  --diff-diagonal: #00000011;
-  --diff-scrollbar-rgb: 128, 128, 128;
-  --gold: #d4a574;
-  --line: rgba(0, 0, 0, 0.08);
-  --border-ui: rgba(0, 0, 0, 0.1);
-  --border-ui-hover: rgba(0, 0, 0, 0.18);
-  --border-ui-active: rgba(0, 0, 0, 0.28);
-  --shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --diff-diagonal: #00000008;
+  --diff-scrollbar-rgb: 142, 142, 147;
+  --gold: #e8a4a0;
+  --line: rgba(0, 0, 0, 0.06);
+  --border-ui: rgba(0, 0, 0, 0.08);
+  --border-ui-hover: rgba(0, 0, 0, 0.15);
+  --border-ui-active: rgba(0, 0, 0, 0.22);
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.03);
 
-  /* Status colors — refined and subtle */
-  --status-success-bg: rgba(52, 199, 89, 0.1);
+  /* Status colors — Apple HIG inspired */
+  --status-success-bg: rgba(52, 199, 89, 0.12);
   --status-success-fg: #248a3d;
-  --status-warning-bg: rgba(255, 159, 10, 0.1);
+  --status-warning-bg: rgba(255, 159, 10, 0.12);
   --status-warning-fg: #c77c00;
-  --status-error-bg: rgba(255, 59, 48, 0.1);
+  --status-error-bg: rgba(255, 59, 48, 0.12);
   --status-error-fg: #d70015;
 
-  /* Form controls */
-  --input-border: rgba(0, 0, 0, 0.12);
+  /* Form controls — clean Apple aesthetic */
+  --input-border: rgba(0, 0, 0, 0.1);
   --input-bg: #ffffff;
-  --input-placeholder: rgba(110, 110, 115, 0.6);
+  --input-placeholder: rgba(60, 60, 67, 0.4);
   --input-focus-border: var(--accent);
-  --input-focus-ring: rgba(196, 92, 62, 0.15);
-  --label-fg: #6e6e73;
+  --input-focus-ring: rgba(214, 69, 65, 0.2);
+  --label-fg: #86868b;
 
-  /* Interactive states */
-  --hover-bg: rgba(0, 0, 0, 0.03);
-  --active-bg: rgba(0, 0, 0, 0.06);
+  /* Interactive states — subtle Apple feedback */
+  --hover-bg: rgba(0, 0, 0, 0.02);
+  --active-bg: rgba(0, 0, 0, 0.05);
 
   /* Overlay */
-  --overlay-bg: rgba(0, 0, 0, 0.4);
+  --overlay-bg: rgba(0, 0, 0, 0.35);
 
-  /* Shadows — soft, layered depth */
-  --shadow-dialog: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 12px 24px -8px rgba(0, 0, 0, 0.1);
-  --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05);
-  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.04);
-  --shadow-card-hover: 0 8px 32px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(0, 0, 0, 0.06);
+  /* Shadows — Apple-style soft, layered depth */
+  --shadow-dialog: 0 28px 56px -12px rgba(0, 0, 0, 0.12), 0 14px 28px -8px rgba(0, 0, 0, 0.08);
+  --shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.06), 0 3px 8px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 1px 4px rgba(0, 0, 0, 0.03), 0 2px 12px rgba(0, 0, 0, 0.03);
+  --shadow-card-hover: 0 6px 24px rgba(0, 0, 0, 0.06), 0 3px 12px rgba(0, 0, 0, 0.04);
 
   /* Layout widths */
   --page-max: 1440px;
@@ -176,36 +177,37 @@
   --fs-3xl: 2.75rem;
   --fs-4xl: 3.5rem;
 
-  /* Soft rounded corners — premium feel */
-  --r-lg: 20px;
-  --r-md: 14px;
-  --r-sm: 10px;
+  /* Apple-style rounded corners — consistent, refined */
+  --r-lg: 18px;
+  --r-md: 12px;
+  --r-sm: 8px;
   --r-xs: 6px;
-  --r-pill: 999px;
+  --r-pill: 980px;
 
-  /* Premium typography stack — using existing fonts + system fallbacks */
-  --font-display: "Bricolage Grotesque", Georgia, "Times New Roman", serif;
-  --font-body: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* Apple-inspired typography — SF Pro fallbacks with elegant alternatives */
+  --font-display: "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
+  --font-body: "Manrope", -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  --font-mono: "SF Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   --font-serif: "Bricolage Grotesque", Georgia, serif;
 }
 
-/* Dark theme — optional override, default is now light */
+/* Dark theme — OpenClaw branding */
 [data-theme="dark"] {
   color-scheme: dark;
-  --bg: #0f0f0f;
-  --bg-soft: #171717;
-  --bg-glow-1: #1a1815;
-  --bg-glow-2: #15181a;
-  --surface: #1c1c1e;
-  --surface-muted: #242426;
-  --nav-bg: rgba(15, 15, 15, 0.92);
+  --bg: #000000;
+  --bg-soft: #1c1c1e;
+  --bg-glow-1: #1a1517;
+  --bg-glow-2: #15171a;
+  --surface: #2c2c2e;
+  --surface-muted: #3a3a3c;
+  --nav-bg: rgba(0, 0, 0, 0.88);
   --ink: #f5f5f7;
   --ink-soft: #98989d;
-  --accent: #d4735a;
+  --accent: #e8706c;
   --accent-fg: #ffffff;
-  --accent-deep: #c45c3e;
-  --line: rgba(255, 255, 255, 0.1);
+  --accent-deep: #d64541;
+  --accent-light: #f09390;
+  --line: rgba(255, 255, 255, 0.08);
   --border-ui: rgba(0, 0, 0, 0.2);
   --border-ui-hover: rgba(0, 0, 0, 0.35);
   --border-ui-active: rgba(0, 0, 0, 0.5);
@@ -350,14 +352,14 @@ code {
   margin-top: 18px;
 }
 
-/* Premium editorial navbar */
+/* Apple-style navigation bar */
 .navbar {
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 100;
   background: var(--nav-bg);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
   border-bottom: 1px solid var(--line);
 }
 
@@ -373,48 +375,49 @@ code {
 .navbar-top {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 12px 0 14px;
+  gap: 20px;
+  padding: 10px 0 12px;
 }
 
 .navbar-search {
   flex: 1;
-  max-width: 420px;
+  max-width: 380px;
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--r-pill);
-  padding: 0 var(--space-4);
-  height: 40px;
-  box-shadow: var(--shadow);
+  background: var(--bg-soft);
+  border: none;
+  border-radius: var(--r-sm);
+  padding: 0 var(--space-3);
+  height: 36px;
   transition: all 0.2s ease;
 }
 
 .navbar-search:focus-within {
-  border-color: var(--accent);
+  background: var(--surface);
   box-shadow: 0 0 0 3px var(--input-focus-ring);
 }
 
 .navbar-search-icon {
   color: var(--ink-soft);
-  opacity: 0.6;
+  opacity: 0.5;
   flex-shrink: 0;
+  width: 16px;
+  height: 16px;
 }
 
 .navbar-search-input {
   all: unset;
   flex: 1;
   font-family: var(--font-body);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: var(--ink);
   min-width: 0;
 }
 
 .navbar-search-input::placeholder {
   color: var(--ink-soft);
-  opacity: 0.5;
+  opacity: 0.6;
 }
 
 .navbar-search-mobile-trigger {
@@ -506,7 +509,7 @@ code {
 .navbar-tab[data-status="active"] {
   color: var(--accent);
   font-weight: 600;
-  background: rgba(196, 92, 62, 0.08);
+  background: rgba(214, 69, 65, 0.08);
 }
 
 .navbar-tab.active svg,
@@ -523,15 +526,15 @@ code {
   opacity: 1;
 }
 
-/* Premium brand styling */
+/* Apple-style brand */
 .brand {
-  font-family: var(--font-serif);
-  font-size: 1.25rem;
-  font-weight: 400;
-  letter-spacing: -0.01em;
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   text-transform: none;
   color: var(--ink);
   text-decoration: none;
@@ -542,12 +545,11 @@ code {
 }
 
 .brand-mark {
-  width: 32px;
-  height: 32px;
-  border-radius: 10px;
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
   display: grid;
   place-items: center;
-  overflow: hidden;
   overflow: hidden;
 }
 
@@ -2147,7 +2149,7 @@ code {
   display: grid;
   place-items: center;
   border: 1px solid var(--line);
-  background: linear-gradient(135deg, rgba(196, 92, 62, 0.1), rgba(212, 165, 116, 0.1));
+  background: linear-gradient(135deg, rgba(214, 69, 65, 0.08), rgba(232, 164, 160, 0.08));
   flex: 0 0 auto;
 }
 
@@ -5429,15 +5431,15 @@ html.theme-transition::view-transition-new(theme) {
 .home-hero::before {
   content: "";
   position: absolute;
-  top: -100px;
+  top: -80px;
   left: 50%;
   transform: translateX(-50%);
-  width: 140%;
-  height: 600px;
+  width: 120%;
+  height: 500px;
   background:
-    radial-gradient(ellipse 80% 50% at 50% 20%, rgba(212, 165, 116, 0.12) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 40% at 20% 60%, rgba(196, 92, 62, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse 50% 30% at 80% 40%, rgba(94, 158, 139, 0.06) 0%, transparent 50%);
+    radial-gradient(ellipse 70% 45% at 50% 25%, rgba(232, 164, 160, 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 35% at 25% 55%, rgba(214, 69, 65, 0.05) 0%, transparent 45%),
+    radial-gradient(ellipse 45% 25% at 75% 45%, rgba(52, 199, 89, 0.04) 0%, transparent 45%);
   pointer-events: none;
   z-index: -1;
 }
@@ -5465,14 +5467,14 @@ html.theme-transition::view-transition-new(theme) {
   display: inline-flex;
   align-items: center;
   width: fit-content;
-  padding: 8px 18px;
-  margin-bottom: 24px;
+  padding: 6px 16px;
+  margin-bottom: 20px;
   border-radius: var(--r-pill);
   border: none;
-  background: linear-gradient(135deg, rgba(196, 92, 62, 0.1), rgba(212, 165, 116, 0.1));
-  font-size: 0.8rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  background: rgba(214, 69, 65, 0.08);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--accent);
   font-family: var(--font-body);
@@ -5542,14 +5544,14 @@ html.theme-transition::view-transition-new(theme) {
 }
 
 .home-category-pill-accent {
-  background: linear-gradient(135deg, rgba(196, 92, 62, 0.1), rgba(212, 165, 116, 0.08));
-  border-color: rgba(196, 92, 62, 0.2);
+  background: rgba(214, 69, 65, 0.08);
+  border-color: rgba(214, 69, 65, 0.15);
   color: var(--accent);
 }
 
 .home-category-pill-accent:hover {
-  background: linear-gradient(135deg, rgba(196, 92, 62, 0.15), rgba(212, 165, 116, 0.12));
-  border-color: rgba(196, 92, 62, 0.35);
+  background: rgba(214, 69, 65, 0.12);
+  border-color: rgba(214, 69, 65, 0.25);
 }
 
 /* CTA Section */
@@ -5601,11 +5603,11 @@ html.theme-transition::view-transition-new(theme) {
   border-color: var(--border-ui-hover);
 }
 
-/* Featured Apps Grid — Apple Store inspired */
+/* Featured Apps Grid — Apple App Store style */
 .home-hero-panels {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
+  gap: 12px;
   align-self: stretch;
   width: 100%;
   margin-top: var(--space-4);
@@ -5614,31 +5616,32 @@ html.theme-transition::view-transition-new(theme) {
 .home-hero-panel {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 20px;
+  gap: 8px;
+  padding: 18px;
   text-decoration: none;
   color: inherit;
-  border-radius: var(--r-lg);
-  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  border: none;
   background: var(--surface);
   box-shadow: var(--shadow-card);
-  min-height: 140px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 130px;
+  transition: all 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: relative;
   overflow: hidden;
 }
 
-/* Category color stripe accent */
+/* Subtle top accent on hover */
 .home-hero-panel::before {
   content: "";
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
+  left: 18px;
+  right: 18px;
+  height: 2px;
   background: var(--accent);
+  border-radius: 0 0 2px 2px;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.2s ease;
 }
 
 .home-hero-panel:hover::before {
@@ -5646,24 +5649,22 @@ html.theme-transition::view-transition-new(theme) {
 }
 
 .home-hero-panel:hover {
-  border-color: var(--border-ui-hover);
   box-shadow: var(--shadow-card-hover);
-  transform: translateY(-3px);
+  transform: translateY(-2px);
 }
 
 .home-hero-panel strong {
   font-family: var(--font-body);
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 600;
   line-height: 1.3;
   color: var(--ink);
 }
 
 .home-hero-panel span:last-child {
-  color: var(--ink);
-  opacity: 0.7;
-  font-size: 0.85rem;
-  line-height: 1.5;
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+  line-height: 1.45;
   font-family: var(--font-body);
 }
 
@@ -5671,43 +5672,43 @@ html.theme-transition::view-transition-new(theme) {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   font-family: var(--font-body);
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   color: var(--accent);
   padding: 3px 8px;
-  background: linear-gradient(135deg, rgba(196, 92, 62, 0.1), rgba(212, 165, 116, 0.08));
+  background: rgba(214, 69, 65, 0.08);
   border-radius: var(--r-xs);
   width: fit-content;
 }
 
-/* Home sections — Editorial curated content */
+/* Home sections — Apple-style curated content */
 
 .home-section {
   max-width: var(--page-max);
   margin: 0 auto;
-  padding: var(--space-6) var(--space-5) var(--space-7);
+  padding: var(--space-5) var(--space-5) var(--space-6);
 }
 
 .home-section + .home-section {
-  padding-top: 0;
+  padding-top: var(--space-2);
 }
 
 .home-section-header {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
-  margin-bottom: var(--space-5);
+  margin-bottom: var(--space-4);
 }
 
 .home-section-title {
-  font-family: var(--font-serif);
-  font-size: var(--fs-2xl);
-  font-weight: 400;
+  font-family: var(--font-body);
+  font-size: var(--fs-xl);
+  font-weight: 700;
   color: var(--ink);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 
 .home-section-link {
@@ -5718,64 +5719,65 @@ html.theme-transition::view-transition-new(theme) {
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  transition: gap 0.2s ease;
+  gap: 2px;
+  transition: gap 0.15s ease;
 }
 
 .home-section-link:hover {
   text-decoration: none;
-  gap: 8px;
+  gap: 6px;
 }
 
 .home-section-link::after {
-  content: "\2192";
-  font-size: 1.1em;
+  content: "\203A";
+  font-size: 1.2em;
+  font-weight: 400;
 }
 
-/* Skill list — Premium card-based layout */
+/* Skill list — Apple App Store card grid */
 
 .results-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
   border: none;
   border-radius: 0;
   overflow: visible;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Skill list item — Premium card style */
+/* Skill list item — Apple-style card */
 
 .skill-list-item {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  padding: 22px;
-  border: 1px solid var(--line);
-  border-radius: var(--r-lg);
+  gap: 12px;
+  padding: 20px;
+  border: none;
+  border-radius: var(--r-md);
   background: var(--surface);
   box-shadow: var(--shadow-card);
   text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: relative;
 }
 
-/* Subtle left accent stripe for visual anchor */
+/* Subtle top accent line for visual anchor */
 .skill-list-item::before {
   content: "";
   position: absolute;
-  top: 16px;
-  bottom: 16px;
-  left: 0;
-  width: 3px;
-  background: linear-gradient(180deg, var(--accent), var(--gold));
-  border-radius: 0 2px 2px 0;
+  top: 0;
+  left: 20px;
+  right: 20px;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 0 0 2px 2px;
   opacity: 0;
-  transition: opacity 0.25s ease;
+  transition: opacity 0.2s ease;
 }
 
 .skill-list-item:hover::before {
@@ -5788,7 +5790,6 @@ html.theme-transition::view-transition-new(theme) {
 
 .skill-list-item:hover {
   background: var(--surface);
-  border-color: var(--border-ui-hover);
   box-shadow: var(--shadow-card-hover);
   transform: translateY(-2px);
 }
