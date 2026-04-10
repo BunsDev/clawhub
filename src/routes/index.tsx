@@ -77,12 +77,14 @@ function SkillsHome() {
         <div className="home-hero-inner">
           <div className="home-hero-grid">
             <div className="home-hero-copy">
-              <div className="home-hero-kicker">Discovery hub</div>
-              <h1 className="home-hero-title">The collaborative hub for agent skills</h1>
+              <div className="home-hero-kicker">Editorial App Marketplace</div>
+              <h1 className="home-hero-title">
+                Discover exceptional apps crafted for the modern creator
+              </h1>
               <p className="home-hero-subtitle">
                 {skillCount != null
-                  ? `${formatCompactStat(skillCount)} public skill bundles, plugin packages, and builder profiles in one shared index. Browse fast, fork the good stuff, ship your own.`
-                  : "Public skill bundles, plugin packages, and builder profiles in one shared index. Browse fast, fork the good stuff, ship your own."}
+                  ? `Explore ${formatCompactStat(skillCount)} curated apps, plugins, and creative tools. Hand-picked quality, seamless discovery.`
+                  : "Explore curated apps, plugins, and creative tools. Hand-picked quality, seamless discovery."}
               </p>
               <div className="home-hero-actions">
                 <Button asChild variant="primary">
@@ -98,7 +100,7 @@ function SkillsHome() {
                       focus: undefined,
                     }}
                   >
-                    Browse All Skills & Plugins
+                    Explore Apps
                   </Link>
                 </Button>
                 <Button asChild className="home-hero-publish-btn">
@@ -106,14 +108,69 @@ function SkillsHome() {
                     to="/publish-skill"
                     search={{ updateSlug: undefined }}
                   >
-                    + Publish Yours
+                    Submit Your App
                   </Link>
                 </Button>
               </div>
               <p className="home-hero-explainer">
-                Sharp filters. Clean listings. Discovery that feels more like a real index and less
-                like a sad spreadsheet.
+                A refined marketplace experience where quality meets discovery.
+                Browse with intention, find with ease.
               </p>
+            </div>
+
+            {/* Category Pills - App Store style navigation */}
+            <div className="home-category-pills">
+              <Link
+                to="/skills"
+                search={{
+                  q: undefined,
+                  sort: "downloads" as const,
+                  dir: "desc" as const,
+                  highlighted: undefined,
+                  nonSuspicious: true,
+                  view: undefined,
+                  focus: undefined,
+                }}
+                className="home-category-pill"
+              >
+                Top Rated
+              </Link>
+              <Link
+                to="/skills"
+                search={{
+                  q: undefined,
+                  sort: "newest" as const,
+                  dir: undefined,
+                  highlighted: undefined,
+                  nonSuspicious: true,
+                  view: undefined,
+                  focus: undefined,
+                }}
+                className="home-category-pill"
+              >
+                New Releases
+              </Link>
+              <Link to="/plugins" className="home-category-pill">
+                Plugins
+              </Link>
+              <Link
+                to="/skills"
+                search={{
+                  q: undefined,
+                  sort: undefined,
+                  dir: undefined,
+                  highlighted: true,
+                  nonSuspicious: undefined,
+                  view: undefined,
+                  focus: undefined,
+                }}
+                className="home-category-pill home-category-pill-accent"
+              >
+                Editor&apos;s Choice
+              </Link>
+              <Link to="/users" search={{ q: undefined }} className="home-category-pill">
+                Creators
+              </Link>
             </div>
 
             <div className="home-hero-panels" id="home-discovery">
@@ -130,19 +187,19 @@ function SkillsHome() {
                 }}
                 className="home-hero-panel"
               >
-                <span className="home-hero-panel-label">Skills</span>
-                <strong>Browse ranked skill bundles</strong>
-                <span>Popular installs, fresh updates, staff picks.</span>
+                <span className="home-hero-panel-label">Featured</span>
+                <strong>Top-Rated Apps</strong>
+                <span>Discover the most loved apps by our community.</span>
               </Link>
               <Link to="/plugins" className="home-hero-panel">
-                <span className="home-hero-panel-label">Plugins</span>
-                <strong>Find agent-ready packages</strong>
-                <span>Code plugins, bundles, and verified publishers.</span>
+                <span className="home-hero-panel-label">Extensions</span>
+                <strong>Powerful Plugins</strong>
+                <span>Production-ready plugins for your workflow.</span>
               </Link>
               <Link to="/users" search={{ q: undefined }} className="home-hero-panel">
-                <span className="home-hero-panel-label">Users</span>
-                <strong>Meet the builders</strong>
-                <span>Profiles, bios, and the people shipping useful stuff.</span>
+                <span className="home-hero-panel-label">Community</span>
+                <strong>Meet Creators</strong>
+                <span>Connect with talented developers.</span>
               </Link>
               <Link
                 to="/souls"
@@ -155,9 +212,9 @@ function SkillsHome() {
                 }}
                 className="home-hero-panel"
               >
-                <span className="home-hero-panel-label">Souls</span>
-                <strong>SOUL.md discovery is coming</strong>
-                <span>Holding page for the next catalog surface.</span>
+                <span className="home-hero-panel-label">Coming Soon</span>
+                <strong>AI Companions</strong>
+                <span>Intelligent assistants for creators.</span>
               </Link>
             </div>
           </div>
@@ -168,7 +225,7 @@ function SkillsHome() {
       {trending.length > 0 ? (
         <section className="home-section">
           <div className="home-section-header">
-            <h2 className="home-section-title">Trending</h2>
+            <h2 className="home-section-title">Trending Now</h2>
             <Link
               to="/skills"
               search={{
@@ -182,7 +239,7 @@ function SkillsHome() {
               }}
               className="home-section-link"
             >
-              See all
+              View All
             </Link>
           </div>
           <div className="results-list">
@@ -202,7 +259,7 @@ function SkillsHome() {
       {recent.length > 0 ? (
         <section className="home-section">
           <div className="home-section-header">
-            <h2 className="home-section-title">Recently updated</h2>
+            <h2 className="home-section-title">Fresh Releases</h2>
             <Link
               to="/skills"
               search={{
@@ -216,7 +273,7 @@ function SkillsHome() {
               }}
               className="home-section-link"
             >
-              See all
+              View All
             </Link>
           </div>
           <div className="results-list">
@@ -236,7 +293,7 @@ function SkillsHome() {
       {highlighted.length > 0 ? (
         <section className="home-section">
           <div className="home-section-header">
-            <h2 className="home-section-title">Staff picks</h2>
+            <h2 className="home-section-title">Editor&apos;s Choice</h2>
             <Link
               to="/skills"
               search={{
@@ -250,7 +307,7 @@ function SkillsHome() {
               }}
               className="home-section-link"
             >
-              See all
+              View All
             </Link>
           </div>
           <div className="grid">
@@ -280,43 +337,16 @@ function SkillsHome() {
         </section>
       ) : null}
 
-      {/* Quick links */}
-      <section className="home-section">
-        <div className="home-quick-links">
-          <Link
-            to="/skills"
-            search={{ q: undefined, sort: "stars" as const, dir: "desc" as const, highlighted: undefined, nonSuspicious: true, view: undefined, focus: undefined }}
-            className="home-quick-link"
-          >
-            Most starred
-          </Link>
-          <Link
-            to="/skills"
-            search={{ q: undefined, sort: "newest" as const, dir: undefined, highlighted: undefined, nonSuspicious: true, view: undefined, focus: undefined }}
-            className="home-quick-link"
-          >
-            New this week
-          </Link>
-          <Link to="/plugins" className="home-quick-link">
-            Browse plugins
-          </Link>
-          <Link to="/users" search={{ q: undefined }} className="home-quick-link">
-            Browse users
-          </Link>
-          <Link
-            to="/souls"
-            search={{ q: undefined, sort: undefined, dir: undefined, view: undefined, focus: undefined }}
-            className="home-quick-link"
-          >
-            Souls coming soon
-          </Link>
-          <Link
-            to="/skills"
-            search={{ q: undefined, sort: undefined, dir: undefined, highlighted: true, nonSuspicious: undefined, view: undefined, focus: undefined }}
-            className="home-quick-link"
-          >
-            Staff picks
-          </Link>
+      {/* Call to action footer */}
+      <section className="home-section home-cta-section">
+        <div className="home-cta">
+          <h3 className="home-cta-title">Ready to share your creation?</h3>
+          <p className="home-cta-text">Join our community of creators and publish your app today.</p>
+          <Button asChild variant="primary">
+            <Link to="/publish-skill" search={{ updateSlug: undefined }}>
+              Submit Your App
+            </Link>
+          </Button>
         </div>
       </section>
     </main>

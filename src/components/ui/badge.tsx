@@ -10,16 +10,16 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
     <span
       ref={ref}
       className={cn(
-        // Base styles
-        "inline-flex items-center gap-1.5 rounded-[var(--radius-pill)] text-fs-sm font-semibold",
-        // Variant styles — all token-driven, no dark: overrides needed
-        variant === "default" && "bg-hover-bg px-3 py-1 text-ink-soft border border-line",
-        variant === "accent" && "bg-active-bg px-3 py-1 text-accent-deep border border-line",
-        variant === "compact" && "bg-hover-bg px-2.5 py-0.5 text-fs-xs text-ink-soft border border-line",
-        variant === "pending" && "bg-status-warning-bg px-3 py-1 text-status-warning-fg border border-line",
-        variant === "success" && "bg-status-success-bg px-3 py-1 text-status-success-fg border border-line",
-        variant === "warning" && "bg-status-warning-bg px-3 py-1 text-status-warning-fg border border-line",
-        variant === "destructive" && "bg-status-error-bg px-3 py-1 text-status-error-fg border border-line",
+        // Base styles — premium editorial aesthetic
+        "inline-flex items-center gap-1.5 rounded-[var(--radius-sm)] text-fs-xs font-medium tracking-wide",
+        // Variant styles — soft, refined colors
+        variant === "default" && "bg-[color:var(--surface-muted)] px-3 py-1.5 text-[color:var(--ink-soft)] border-none",
+        variant === "accent" && "bg-[rgba(214,69,65,0.1)] px-3 py-1.5 text-[color:var(--accent)] border-none",
+        variant === "compact" && "bg-[color:var(--surface-muted)] px-2.5 py-1 text-fs-xs text-[color:var(--ink-soft)] border-none",
+        variant === "pending" && "bg-status-warning-bg px-3 py-1.5 text-status-warning-fg border-none",
+        variant === "success" && "bg-status-success-bg px-3 py-1.5 text-status-success-fg border-none",
+        variant === "warning" && "bg-status-warning-bg px-3 py-1.5 text-status-warning-fg border-none",
+        variant === "destructive" && "bg-status-error-bg px-3 py-1.5 text-status-error-fg border-none",
         className,
       )}
       {...props}

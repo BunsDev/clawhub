@@ -140,10 +140,27 @@ export class PackageApiError extends Error {
   }
 }
 
+/** Duck-type check for PackageApiError (handles cross-boundary serialization) */
+function looksLikePackageApiError(
+  error: unknown,
+): error is { name: string; status: number; retryAfterSeconds?: number | null; message?: string } {
+  if (error instanceof PackageApiError) return true;
+  if (typeof error !== "object" || error === null) return false;
+  const obj = error as Record<string, unknown>;
+  return (
+    (obj.name === "PackageApiError" || obj.name === "PackageApiRateLimitError") &&
+    typeof obj.status === "number"
+  );
+}
+
 export function isRateLimitedPackageApiError(
   error: unknown,
 ): error is PackageApiError & { status: 429 } {
-  return error instanceof PackageApiError && error.status === 429;
+  return looksLikePackageApiError(error) && error.status === 429;
+}
+
+export function isPackageApiError(error: unknown): error is PackageApiError {
+  return looksLikePackageApiError(error);
 }
 
 function normalizeApiPath(path: string) {

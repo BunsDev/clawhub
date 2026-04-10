@@ -6,6 +6,7 @@ import { PluginListItem } from "../../components/PluginListItem";
 import { Button } from "../../components/ui/button";
 import {
   fetchPluginCatalog,
+  isPackageApiError,
   isRateLimitedPackageApiError,
   type PackageListItem,
 } from "../../lib/packageApi";
@@ -23,6 +24,8 @@ type PluginsLoaderData = {
   nextCursor: string | null;
   rateLimited: boolean;
   retryAfterSeconds: number | null;
+  apiError: boolean;
+  apiErrorMessage: string | null;
 };
 
 function formatRetryDelay(retryAfterSeconds: number | null) {
@@ -69,6 +72,8 @@ export const Route = createFileRoute("/plugins/")({
         nextCursor: data.nextCursor ?? null,
         rateLimited: false,
         retryAfterSeconds: null,
+        apiError: false,
+        apiErrorMessage: null,
       } satisfies PluginsLoaderData;
     } catch (error) {
       if (isRateLimitedPackageApiError(error)) {
@@ -77,6 +82,19 @@ export const Route = createFileRoute("/plugins/")({
           nextCursor: null,
           rateLimited: true,
           retryAfterSeconds: (error as { retryAfterSeconds?: number }).retryAfterSeconds ?? null,
+          apiError: false,
+          apiErrorMessage: null,
+        } satisfies PluginsLoaderData;
+      }
+      // Handle other API errors gracefully instead of throwing
+      if (isPackageApiError(error)) {
+        return {
+          items: [],
+          nextCursor: null,
+          rateLimited: false,
+          retryAfterSeconds: null,
+          apiError: true,
+          apiErrorMessage: error.message || "The plugin catalog is temporarily unavailable.",
         } satisfies PluginsLoaderData;
       }
       throw error;
@@ -88,7 +106,7 @@ export const Route = createFileRoute("/plugins/")({
 export function PluginsIndex() {
   const search = Route.useSearch();
   const navigate = Route.useNavigate();
-  const { items, nextCursor, rateLimited, retryAfterSeconds } =
+  const { items, nextCursor, rateLimited, retryAfterSeconds, apiError, apiErrorMessage } =
     Route.useLoaderData() as PluginsLoaderData;
   const [query, setQuery] = useState(search.q ?? "");
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -201,7 +219,15 @@ export function PluginsIndex() {
             </span>
           </div>
 
-          {rateLimited ? (
+          {apiError ? (
+            <div className="empty-state">
+              <AlertTriangle size={20} aria-hidden="true" />
+              <p className="empty-state-title">Plugin catalog is temporarily unavailable</p>
+              <p className="empty-state-body">
+                {apiErrorMessage || "Please try again later."}
+              </p>
+            </div>
+          ) : rateLimited ? (
             <div className="empty-state">
               <AlertTriangle size={20} aria-hidden="true" />
               <p className="empty-state-title">Plugin catalog is temporarily unavailable</p>

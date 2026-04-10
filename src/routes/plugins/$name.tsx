@@ -14,6 +14,7 @@ import {
   fetchPackageReadme,
   fetchPackageVersion,
   getPackageDownloadPath,
+  isPackageApiError,
   isRateLimitedPackageApiError,
   type PackageDetailResponse,
   type PackageVersionDetail,
@@ -27,11 +28,17 @@ type PluginDetailRateLimitState =
     }
   | null;
 
+type PluginDetailApiErrorState = {
+  scope: "detail" | "metadata";
+  message: string;
+} | null;
+
 type PluginDetailLoaderData = {
   detail: PackageDetailResponse;
   version: PackageVersionDetail | null;
   readme: string | null;
   rateLimited: PluginDetailRateLimitState;
+  apiError: PluginDetailApiErrorState;
 };
 
 export const Route = createFileRoute("/plugins/$name")({
@@ -57,6 +64,20 @@ export const Route = createFileRoute("/plugins/$name")({
               scope: "detail",
               retryAfterSeconds: error.retryAfterSeconds,
             },
+            apiError: null,
+          };
+        }
+        // Handle other API errors gracefully
+        if (isPackageApiError(error)) {
+          return {
+            detail: { package: null, owner: null },
+            version: null,
+            readme: null,
+            rateLimited: null,
+            apiError: {
+              scope: "detail",
+              message: error.message || "Plugin details are temporarily unavailable.",
+            },
           };
         }
         throw error;
@@ -75,30 +96,50 @@ export const Route = createFileRoute("/plugins/$name")({
         version: null,
         readme: null,
         rateLimited: null,
+        apiError: null,
       };
     }
 
     let metadataRateLimited: PluginDetailRateLimitState = null;
+    let metadataApiError: PluginDetailApiErrorState = null;
     const readmePromise = fetchPackageReadme(resolvedName).catch((error: unknown) => {
-      if (!isRateLimitedPackageApiError(error)) throw error;
-      metadataRateLimited ??= {
-        scope: "metadata",
-        retryAfterSeconds: error.retryAfterSeconds,
-      };
-      return null;
+      if (isRateLimitedPackageApiError(error)) {
+        metadataRateLimited ??= {
+          scope: "metadata",
+          retryAfterSeconds: error.retryAfterSeconds,
+        };
+        return null;
+      }
+      if (isPackageApiError(error)) {
+        metadataApiError ??= {
+          scope: "metadata",
+          message: error.message || "Some metadata is temporarily unavailable.",
+        };
+        return null;
+      }
+      throw error;
     });
     const versionPromise = detail.package?.latestVersion
       ? fetchPackageVersion(resolvedName, detail.package.latestVersion).catch((error: unknown) => {
-          if (!isRateLimitedPackageApiError(error)) throw error;
-          metadataRateLimited ??= {
-            scope: "metadata",
-            retryAfterSeconds: error.retryAfterSeconds,
-          };
-          return null;
+          if (isRateLimitedPackageApiError(error)) {
+            metadataRateLimited ??= {
+              scope: "metadata",
+              retryAfterSeconds: error.retryAfterSeconds,
+            };
+            return null;
+          }
+          if (isPackageApiError(error)) {
+            metadataApiError ??= {
+              scope: "metadata",
+              message: error.message || "Some metadata is temporarily unavailable.",
+            };
+            return null;
+          }
+          throw error;
         })
       : Promise.resolve(null);
     const [version, readme] = await Promise.all([versionPromise, readmePromise]);
-    return { detail, version, readme, rateLimited: metadataRateLimited };
+    return { detail, version, readme, rateLimited: metadataRateLimited, apiError: metadataApiError };
   },
   head: ({ params, loaderData }) => ({
     meta: [
@@ -235,7 +276,25 @@ function isEmptyObject(obj: unknown): boolean {
 
 function PluginDetailRoute() {
   const { name } = Route.useParams();
-  const { detail, version, readme, rateLimited } = Route.useLoaderData() as PluginDetailLoaderData;
+  const { detail, version, readme, rateLimited, apiError } = Route.useLoaderData() as PluginDetailLoaderData;
+
+  if (apiError?.scope === "detail") {
+    return (
+      <main className="py-10">
+        <Container size="narrow">
+          <EmptyState
+            icon={AlertTriangle}
+            title="Plugin details are temporarily unavailable"
+            description={apiError.message || "Please try again later."}
+            action={{
+              label: "Try again",
+              onClick: () => window.location.reload(),
+            }}
+          />
+        </Container>
+      </main>
+    );
+  }
 
   if (rateLimited?.scope === "detail") {
     return (
