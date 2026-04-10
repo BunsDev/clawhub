@@ -6001,6 +6001,116 @@ html.theme-transition::view-transition-new(theme) {
 
 /* ===== Detail Page Layout ===== */
 
+/* Full-width layout (new) */
+.detail-layout-full {
+  width: 100%;
+}
+
+.detail-main-full {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-width: 100%;
+}
+
+/* Metadata bar — horizontal strip replacing sidebar */
+.skill-metadata-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  margin-bottom: var(--space-4);
+}
+
+.metadata-bar-download {
+  flex-shrink: 0;
+}
+
+.metadata-bar-stats {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding-right: var(--space-4);
+  border-right: 1px solid var(--line);
+}
+
+.metadata-bar-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-sm);
+  color: var(--ink-soft);
+}
+
+.metadata-bar-stat-value {
+  font-weight: 600;
+  color: var(--ink);
+  font-family: var(--font-mono);
+}
+
+.metadata-bar-stat-label {
+  font-size: var(--fs-xs);
+  color: var(--ink-soft);
+}
+
+.metadata-bar-details {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  padding-right: var(--space-4);
+  border-right: 1px solid var(--line);
+}
+
+.metadata-bar-detail {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--fs-xs);
+  color: var(--ink-soft);
+}
+
+.metadata-bar-license {
+  padding: 2px 8px;
+  background: var(--surface-muted);
+  border-radius: var(--r-sm);
+}
+
+.metadata-bar-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-right: var(--space-4);
+  border-right: 1px solid var(--line);
+}
+
+.metadata-bar-publisher {
+  margin-left: auto;
+}
+
+@media (max-width: 900px) {
+  .metadata-bar-stats,
+  .metadata-bar-details,
+  .metadata-bar-tags {
+    border-right: none;
+    padding-right: 0;
+    width: 100%;
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .metadata-bar-publisher {
+    width: 100%;
+    margin-left: 0;
+    padding-top: var(--space-2);
+  }
+}
+
+/* Legacy two-column layout (keeping for backwards compatibility) */
 .detail-layout {
   display: grid;
   grid-template-columns: 1fr 260px;

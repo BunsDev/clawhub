@@ -11,7 +11,7 @@ import { Card } from "./ui/card";
 import { ClientOnly } from "./ClientOnly";
 import { SkillCommentsPanel } from "./SkillCommentsPanel";
 import { SkillDetailTabs, type DetailTab } from "./SkillDetailTabs";
-import { SkillMetadataSidebar } from "./SkillMetadataSidebar";
+import { SkillMetadataBar } from "./SkillMetadataBar";
 import {
   buildSkillHref,
   formatConfigSnippet,
@@ -401,8 +401,22 @@ export function SkillDetailPage({
           />
         ) : null}
 
-        <div className="detail-layout">
-          <div className="detail-main">
+        {/* Metadata bar — replaces sidebar for full-width layout */}
+        <SkillMetadataBar
+          skill={skill}
+          latestVersion={latestVersion}
+          owner={owner}
+          ownerHandle={ownerHandle}
+          clawdis={clawdis}
+          osLabels={osLabels}
+          tagEntries={tagEntries}
+          isMalwareBlocked={modInfo?.isMalwareBlocked}
+          isRemoved={modInfo?.isRemoved}
+          nixPlugin={nixPlugin}
+        />
+
+        <div className="detail-layout-full">
+          <div className="detail-main-full">
             {nixSnippet ? (
               <Card>
                 <h3 className="m-0 text-[length:var(--text-base)] font-semibold">
@@ -460,19 +474,6 @@ export function SkillDetailPage({
               />
             </ClientOnly>
           </div>
-
-          <SkillMetadataSidebar
-            skill={skill}
-            latestVersion={latestVersion}
-            owner={owner}
-            ownerHandle={ownerHandle}
-            clawdis={clawdis}
-            osLabels={osLabels}
-            tagEntries={tagEntries}
-            isMalwareBlocked={modInfo?.isMalwareBlocked}
-            isRemoved={modInfo?.isRemoved}
-            nixPlugin={nixPlugin}
-          />
         </div>
       </div>
 
