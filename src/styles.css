@@ -244,10 +244,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-size: var(--fs-base);
   letter-spacing: -0.01em;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 html {
   scrollbar-gutter: stable;
+  overflow-x: hidden;
 }
 
 a {
@@ -278,10 +281,12 @@ code {
 }
 
 .app-shell {
-  min-width: var(--page-min);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 .app-shell main {
@@ -2209,6 +2214,11 @@ code {
   border-radius: 12px;
   padding: 12px 14px;
   font-size: 0.9rem;
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: break-word;
   line-height: 1.55;
   color: var(--ink);
   font-family: var(--font-mono);
@@ -6553,6 +6563,139 @@ html.theme-transition::view-transition-new(theme) {
   font-size: var(--fs-sm);
   margin-bottom: var(--space-4);
   margin-top: 0;
+}
+
+/* ===== Global Responsive Overflow Prevention ===== */
+
+/* Ensure all content respects viewport width */
+main,
+section,
+article,
+aside,
+header,
+footer,
+nav,
+.card,
+.section,
+.browse-page,
+.home-section,
+.home-hero {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Prevent wide content from causing overflow */
+pre,
+code,
+table {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+img,
+video,
+iframe,
+embed,
+object {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Word break for long text */
+p,
+h1, h2, h3, h4, h5, h6,
+li,
+td,
+th,
+label,
+span {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+/* Mobile-first responsive adjustments */
+@media (max-width: 480px) {
+  :root {
+    --space-4: 14px;
+    --space-5: 18px;
+    --space-6: 24px;
+    --fs-2xl: 1.5rem;
+    --fs-3xl: 1.75rem;
+  }
+
+  .navbar-inner {
+    padding: 0 12px;
+  }
+
+  .home-hero,
+  .home-section,
+  .browse-page,
+  .section {
+    padding-left: var(--space-3);
+    padding-right: var(--space-3);
+  }
+
+  .card {
+    padding: var(--space-3);
+  }
+
+  /* Stack metadata bar vertically on small screens */
+  .skill-metadata-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-3);
+  }
+
+  .metadata-bar-stats,
+  .metadata-bar-details,
+  .metadata-bar-tags {
+    border-right: none;
+    padding-right: 0;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: var(--space-2);
+  }
+
+  .metadata-bar-publisher {
+    margin-left: 0;
+  }
+}
+
+/* Tablet adjustments */
+@media (max-width: 768px) {
+  .home-hero-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .home-hero-panels {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .detail-layout {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .skill-metadata-bar {
+    flex-wrap: wrap;
+  }
+}
+
+/* Small mobile adjustments */
+@media (max-width: 360px) {
+  .home-hero-panels {
+    grid-template-columns: 1fr;
+  }
+
+  .quick-filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .quick-filter {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 /* Dark mode: only where CSS variables don't suffice */
