@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { ArrowRight, Package, Search, Sparkles, Star, TrendingUp } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Bot, Code2, Package, Search, Star, Terminal, Zap } from "lucide-react";
 import { useState } from "react";
 import { MarketplaceIcon } from "../MarketplaceIcon";
 import { formatCompactStat } from "../../lib/numberFormat";
@@ -13,6 +13,33 @@ type DiscoveryHeroProps = {
     owner?: PublicPublisher | null;
   }>;
 };
+
+const PLACEHOLDER_CARDS = [
+  { 
+    title: "AI Agents", 
+    desc: "Intelligent automation tools for complex tasks",
+    icon: Bot,
+    query: "ai agent"
+  },
+  { 
+    title: "Dev Tools", 
+    desc: "Accelerate your development workflow",
+    icon: Code2,
+    query: "developer tools"
+  },
+  { 
+    title: "MCP Integrations", 
+    desc: "Connect to external services seamlessly",
+    icon: Zap,
+    query: "mcp"
+  },
+  { 
+    title: "Automation", 
+    desc: "Streamline repetitive processes",
+    icon: Terminal,
+    query: "automation"
+  },
+];
 
 export function DiscoveryHero({ skillCount, featuredSkills = [] }: DiscoveryHeroProps) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -37,17 +64,21 @@ export function DiscoveryHero({ skillCount, featuredSkills = [] }: DiscoveryHero
     { label: "LLM", query: "llm" },
   ];
 
+  // Determine what cards to show
+  const displaySkills = featuredSkills.slice(0, 4);
+  const placeholdersNeeded = Math.max(0, 4 - displaySkills.length);
+
   return (
     <section className="discovery-hero">
       <div className="discovery-hero-inner">
         <div className="discovery-hero-content">
           <div className="discovery-hero-badge">
-            <Sparkles aria-hidden="true" />
-            Discovery Hub
+            <Terminal aria-hidden="true" />
+            <span>Discovery Hub</span>
           </div>
           
           <h1 className="discovery-hero-title">
-            Discover <span>powerful tools</span> built by the community
+            Discover <span className="discovery-hero-title-highlight">powerful tools</span> built by the community
           </h1>
           
           <p className="discovery-hero-subtitle">
@@ -85,17 +116,17 @@ export function DiscoveryHero({ skillCount, featuredSkills = [] }: DiscoveryHero
         </div>
 
         <div className="discovery-hero-mosaic">
-          {featuredSkills.slice(0, 4).map((entry, index) => {
+          {displaySkills.map((entry, index) => {
             const handle = entry.ownerHandle ?? entry.owner?.handle ?? null;
             const ownerSegment = handle?.trim() || String(entry.skill.ownerPublisherId ?? entry.skill.ownerUserId);
             const href = `/${encodeURIComponent(ownerSegment)}/${encodeURIComponent(entry.skill.slug)}`;
-            const isFeatured = index === 0;
 
             return (
               <Link
                 key={entry.skill._id}
                 to={href}
-                className={`discovery-mosaic-card ${isFeatured ? "featured" : ""}`}
+                className="discovery-mosaic-card"
+                data-position={index}
               >
                 {index === 0 && <span className="discovery-mosaic-badge">Featured</span>}
                 {index === 1 && <span className="discovery-mosaic-badge">Trending</span>}
@@ -120,43 +151,40 @@ export function DiscoveryHero({ skillCount, featuredSkills = [] }: DiscoveryHero
                     </span>
                   </div>
                 </div>
+                <ArrowUpRight className="discovery-mosaic-arrow" size={16} aria-hidden="true" />
               </Link>
             );
           })}
 
-          {/* Fill remaining slots if we have fewer than 4 skills */}
-          {featuredSkills.length < 4 && Array.from({ length: 4 - featuredSkills.length }).map((_, i) => (
-            <Link
-              key={`placeholder-${i}`}
-              to="/skills"
-              search={{
-                q: undefined,
-                sort: "downloads" as const,
-                dir: "desc" as const,
-                highlighted: undefined,
-                nonSuspicious: true,
-                view: undefined,
-                focus: undefined,
-              }}
-              className="discovery-mosaic-card"
-            >
-              <div className="discovery-mosaic-icon">
-                <Sparkles size={24} aria-hidden="true" />
-              </div>
-              <div className="discovery-mosaic-body">
-                <h3 className="discovery-mosaic-title">Discover More</h3>
-                <p className="discovery-mosaic-desc">
-                  Browse the full catalog of skills and plugins
-                </p>
-                <div className="discovery-mosaic-meta">
-                  <span className="discovery-mosaic-stat">
-                    <ArrowRight size={14} aria-hidden="true" />
-                    Explore all
-                  </span>
+          {/* Fill remaining slots with category-based cards */}
+          {PLACEHOLDER_CARDS.slice(0, placeholdersNeeded).map((card, i) => {
+            const Icon = card.icon;
+            return (
+              <Link
+                key={`placeholder-${i}`}
+                to="/search"
+                search={{ q: card.query, type: undefined }}
+                className="discovery-mosaic-card"
+                data-position={displaySkills.length + i}
+                data-placeholder="true"
+              >
+                <div className="discovery-mosaic-icon">
+                  <Icon size={24} aria-hidden="true" />
                 </div>
-              </div>
-            </Link>
-          ))}
+                <div className="discovery-mosaic-body">
+                  <h3 className="discovery-mosaic-title">{card.title}</h3>
+                  <p className="discovery-mosaic-desc">{card.desc}</p>
+                  <div className="discovery-mosaic-meta">
+                    <span className="discovery-mosaic-stat">
+                      <ArrowRight size={14} aria-hidden="true" />
+                      Explore
+                    </span>
+                  </div>
+                </div>
+                <ArrowUpRight className="discovery-mosaic-arrow" size={16} aria-hidden="true" />
+              </Link>
+            );
+          })}
         </div>
       </div>
     </section>
