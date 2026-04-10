@@ -808,6 +808,7 @@ code {
   margin: 0 auto;
   padding: var(--space-5) var(--space-5) var(--space-7);
   box-sizing: border-box;
+  overflow-x: visible;
 }
 
 .upload-shell {
@@ -2433,7 +2434,8 @@ code {
   display: grid;
   gap: 16px;
   max-width: 100%;
-  overflow-x: auto;
+  overflow-x: visible;
+  overflow-y: visible;
 }
 
 /* ── Plugin Detail Page ── */
@@ -3458,6 +3460,59 @@ code {
 .comment-delete:focus-visible {
   outline: 3px solid rgba(255, 255, 255, 0.25);
   outline-offset: 2px;
+}
+
+/* ===== Full-Width Comments Section ===== */
+.comments-section-full {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  margin-top: var(--space-5);
+  padding: var(--space-5) 0;
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.comments-section-inner {
+  width: 100%;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .comments-section-full {
+    padding: var(--space-4) 0;
+    margin-top: var(--space-4);
+  }
+
+  .comments-section-inner {
+    padding: 0 var(--space-3);
+  }
+}
+
+@media (max-width: 480px) {
+  .comments-section-full {
+    padding: var(--space-3) 0;
+  }
+
+  .comments-section-inner {
+    padding: 0 var(--space-2);
+  }
+
+  .comment-item {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .comment-actions {
+    justify-self: start;
+  }
 }
 
 .sidebar-card {
@@ -6696,6 +6751,20 @@ span {
     width: 100%;
     justify-content: center;
   }
+
+  .comments-section-inner {
+    padding: 0 var(--space-2);
+  }
+}
+
+/* Ensure full-width sections work correctly */
+main.section {
+  overflow-x: clip;
+}
+
+/* Allow breakout children while preventing page overflow */
+.skill-detail-stack > .comments-section-full {
+  overflow: visible;
 }
 
 /* Dark mode: only where CSS variables don't suffice */

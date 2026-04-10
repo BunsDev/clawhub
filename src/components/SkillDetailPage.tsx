@@ -454,7 +454,12 @@ export function SkillDetailPage({
               suppressVersionScanResults={suppressVersionScanResults}
               scanResultsSuppressedMessage={scanResultsSuppressedMessage}
             />
+          </div>
+        </div>
 
+        {/* Full-width comments section */}
+        <section className="comments-section-full">
+          <div className="comments-section-inner">
             <ClientOnly
               fallback={
                 <Card>
@@ -474,7 +479,7 @@ export function SkillDetailPage({
               />
             </ClientOnly>
           </div>
-        </div>
+        </section>
       </div>
 
       <SkillReportDialog
